@@ -150,9 +150,44 @@
   <section id="kaufen" class="cta">
     <div class="container cta-inner">
       <h2>Bereit für das DUX-Gefühl?</h2>
-      <p>Diese Demo-Seite dient nur zu Lernzwecken – hier passiert beim Klick nichts Reales.</p>
-      <button id="cta-button" class="btn btn-primary btn-lg">In den Warenkorb (Demo)</button>
-      <p id="cta-feedback" class="cta-feedback"></p>
+      <p>Fülle das Formular aus – deine Anfrage wird per E-Mail an uns gesendet.</p>
+      <form id="order-form" class="order-form">
+        <div class="form-row">
+          <label for="of-name">Name</label>
+          <input type="text" id="of-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="of-email">Deine E-Mail</label>
+          <input type="email" id="of-email" name="email" required>
+        </div>
+        <div class="form-row form-row-split">
+          <div>
+            <label for="of-size">Größe</label>
+            <select id="of-size" name="groesse" required>
+              <option value="">Bitte wählen</option>
+              <option>37</option><option>38</option><option>39</option>
+              <option>40</option><option>41</option><option>42</option>
+              <option>43</option><option>44</option><option>45</option>
+            </select>
+          </div>
+          <div>
+            <label for="of-color">Farbe</label>
+            <select id="of-color" name="farbe" required>
+              <option value="Orange">Orange</option>
+              <option value="Grün">Grün</option>
+              <option value="Blau">Blau</option>
+              <option value="Schwarz">Schwarz</option>
+              <option value="Beere">Beere</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="of-message">Nachricht (optional)</label>
+          <textarea id="of-message" name="nachricht" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Anfrage senden</button>
+        <p id="cta-feedback" class="cta-feedback"></p>
+      </form>
     </div>
   </section>
 
