@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUX Flagship – Der Clog, neu gedacht | Demo</title>
+<meta name="description" content="Flaggschiff-Demoseite für den DUX Clog mit Duflex®-Material. Scroll-gesteuerte 360°-Ansicht, Farbwechsel und mehr. Demo-Projekt.">
+<style>
+/* ============================================================
+   DUX FLAGSHIP – komplett self-contained
+   ============================================================ */
+:root{
+  --bg:#fbfaf8;
+  --ink:#1c1c1e;
+  --ink-soft:#55524c;
+  --accent:#e8734a;
+  --accent-dark:#c85f39;
+  --line:#e7e4de;
+  --stage:#f0f0f0;
+  --dark:#141416;
+  --dark-2:#1d1d21;
+  --radius:20px;
+  --maxw:1180px;
+  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Times New Roman",serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent-dark);
+}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--accent);border-radius:2px}
+h1,h2,h3{line-height:1.08;letter-spacing:-.02em;font-weight:800}
+.section-head{max-width:720px;margin-bottom:56px}
+.section-head h2{font-size:clamp(30px,4.4vw,52px);margin:14px 0 16px}
+.section-head p{color:var(--ink-soft);font-size:18px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 30px;border-radius:999px;font-weight:700;font-size:16px;
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+  will-change:transform;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  color:#fff;box-shadow:0 10px 30px -8px rgba(232,115,74,.55);
+}
+.btn-primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 16px 40px -8px rgba(232,115,74,.65)}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-light{background:#fff;color:var(--ink)}
+.btn-light:hover{transform:translateY(-2px)}
+
+/* ---------- Scroll-Fortschrittsbalken ---------- */
+#progressbar{
+  position:fixed;top:0;left:0;height:3px;width:100%;
+  transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-dark));
+  z-index:1000;
+}
+
+/* ---------- Navbar ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  transition:transform .4s ease, background .4s ease, box-shadow .4s ease, backdrop-filter .4s ease;
+}
+.nav.hidden{transform:translateY(-110%)}
+.nav.scrolled{
+  background:rgba(251,250,248,.82);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 var(--line);
+}
+.nav-inner{
+  max-width:var(--maxw);margin:0 auto;padding:18px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.brand{font-size:24px;font-weight:900;letter-spacing:-.03em}
+.brand em{font-style:normal;color:var(--accent)}
+.nav-links{display:flex;gap:28px;font-size:15px;font-weight:600;color:var(--ink-soft)}
+.nav-links a{position:relative;padding:4px 0;transition:color .2s}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:2px;width:0;
+  background:var(--accent);border-radius:2px;transition:width .3s ease;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav .btn{padding:11px 22px;font-size:14px}
+@media(max-width:820px){.nav-links{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;min-height:100svh;
+  display:flex;align-items:center;
+  overflow:clip;
+  background:
+    radial-gradient(900px 500px at 85% 15%,rgba(232,115,74,.10),transparent 60%),
+    radial-gradient(700px 600px at 8% 90%,rgba(232,115,74,.07),transparent 55%),
+    var(--bg);
+  padding:120px 0 60px;
+}
+.hero-word{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;user-select:none;
+  font-size:clamp(180px,34vw,560px);font-weight:900;letter-spacing:-.04em;
+  color:transparent;-webkit-text-stroke:1.5px rgba(28,28,30,.08);
+  z-index:0;
+}
+.hero-inner{
+  position:relative;z-index:2;width:100%;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+}
+.hero-copy h1{font-size:clamp(42px,6vw,84px);margin:22px 0 24px}
+.hero-copy h1 .accent{color:var(--accent)}
+.hero-copy .lede{font-size:clamp(17px,1.6vw,20px);color:var(--ink-soft);max-width:520px;margin-bottom:36px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.hero-meta{display:flex;gap:34px;margin-top:52px}
+.hero-meta div strong{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.hero-meta div span{font-size:13px;color:var(--ink-soft)}
+.hero-stage{position:relative;min-height:420px}
+.hero-blob{
+  position:absolute;left:50%;top:52%;width:min(520px,90%);aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 45% 40%,rgba(232,115,74,.30),rgba(232,115,74,.06) 55%,transparent 70%);
+  filter:blur(6px);border-radius:50%;
+}
+.hero-ring{
+  position:absolute;left:50%;top:52%;width:min(480px,86%);aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border:1.5px dashed rgba(28,28,30,.16);border-radius:50%;
+  animation:spin 60s linear infinite;
+}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.hero-shoe{
+  position:relative;z-index:3;width:min(560px,100%);margin:0 auto;
+  filter:drop-shadow(0 42px 34px rgba(28,28,30,.28));
+  animation:float 7s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-20px) rotate(-1.5deg)}}
+.hero-chip{
+  position:absolute;z-index:4;
+  background:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:14px;
+  padding:10px 16px;font-size:13px;font-weight:700;
+  box-shadow:0 12px 30px -12px rgba(28,28,30,.25);
+  display:flex;align-items:center;gap:8px;white-space:nowrap;
+}
+.hero-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.chip-1{top:8%;right:4%}
+.chip-2{bottom:14%;left:0}
+.scroll-cue{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);
+  z-index:5;
+}
+.scroll-cue .mouse{
+  width:24px;height:38px;border:2px solid rgba(28,28,30,.35);border-radius:14px;position:relative;
+}
+.scroll-cue .mouse::after{
+  content:"";position:absolute;left:50%;top:7px;width:3px;height:8px;margin-left:-1.5px;
+  background:var(--accent);border-radius:3px;animation:wheel 1.8s ease-in-out infinite;
+}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{opacity:0}}
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;gap:12px}
+  .hero-stage{min-height:320px;order:-1;margin-top:10px}
+  .hero-meta{gap:22px;flex-wrap:wrap}
+}
+
+/* ---------- Marquee ---------- */
+.marquee{
+  background:var(--dark);color:#fbfaf8;overflow:clip;
+  padding:16px 0;border-top:1px solid #000;
+  transform:rotate(-1.2deg) scale(1.02);margin:10px 0 -10px;
+}
+.marquee-track{display:flex;gap:48px;width:max-content;animation:marquee 26s linear infinite}
+.marquee span{
+  font-size:15px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;
+  display:flex;align-items:center;gap:48px;
+}
+.marquee b{color:var(--accent);font-weight:800}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- 360° Sticky-Sektion ---------- */
+.turn{position:relative;height:420vh;background:var(--stage)}
+.turn-sticky{
+  position:sticky;top:0;height:100vh;height:100svh;overflow:clip;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--stage);
+}
+.turn-frame-wrap{
+  position:relative;width:min(72vh,86vw,620px);aspect-ratio:1;
+  will-change:transform;cursor:grab;touch-action:pan-y;
+}
+.turn-frame-wrap:active{cursor:grabbing}
+.turn-layer{position:absolute;inset:0}
+.turn-layer img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  opacity:0;
+}
+.turn-layer img.on{opacity:1}
+.turn-hud{
+  position:absolute;z-index:6;left:50%;bottom:max(24px,4vh);transform:translateX(-50%);
+  display:flex;align-items:center;gap:18px;
+  background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:999px;padding:10px 22px 10px 12px;
+  box-shadow:0 14px 40px -14px rgba(28,28,30,.3);
+}
+.hud-ring{width:44px;height:44px;transform:rotate(-90deg)}
+.hud-ring .bg{fill:none;stroke:var(--line);stroke-width:3}
+.hud-ring .fg{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;
+  stroke-dasharray:113.1;stroke-dashoffset:113.1}
+.hud-deg{font-variant-numeric:tabular-nums;font-weight:800;font-size:18px;min-width:56px}
+.hud-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+.turn-title{
+  position:absolute;z-index:5;top:max(84px,10vh);left:0;right:0;text-align:center;pointer-events:none;
+}
+.turn-title .eyebrow{justify-content:center;display:flex}
+.turn-title h2{font-size:clamp(26px,3.6vw,44px);margin-top:12px}
+.turn-caption{
+  position:absolute;z-index:5;max-width:280px;opacity:0;transform:translateY(24px);
+  pointer-events:none;
+}
+.turn-caption h3{font-size:21px;margin-bottom:8px}
+.turn-caption p{font-size:15px;color:var(--ink-soft)}
+.turn-caption .num{
+  font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.2em;display:block;margin-bottom:10px;
+}
+.cap-1{left:max(24px,6vw);top:34%}
+.cap-2{right:max(24px,6vw);top:30%;text-align:right}
+.cap-3{left:max(24px,6vw);bottom:22%}
+.turn-swatches{
+  position:absolute;z-index:7;right:max(20px,4vw);bottom:max(24px,4vh);
+  display:flex;flex-direction:column;gap:12px;align-items:center;
+  background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:999px;padding:12px 10px;
+  box-shadow:0 14px 40px -14px rgba(28,28,30,.3);
+}
+.swatch{
+  width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid #fff;
+  outline:2px solid transparent;outline-offset:2px;
+  transition:outline-color .25s, transform .25s;padding:0;
+}
+.swatch:hover{transform:scale(1.12)}
+.swatch.active{outline-color:var(--accent)}
+.swatch-black{background:radial-gradient(circle at 32% 30%,#4a4a4e,#131315)}
+.swatch-blue{background:radial-gradient(circle at 32% 30%,#4a5adf,#232a86)}
+.turn-loader{
+  position:absolute;z-index:8;top:max(20px,3vh);right:max(20px,4vw);
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+  background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+  transition:opacity .5s;
+}
+.turn-loader.done{opacity:0}
+@media(max-width:700px){
+  .turn-caption{
+    max-width:210px;
+    background:rgba(240,240,240,.82);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    border-radius:14px;padding:12px 14px;
+  }
+  .turn-caption h3{font-size:16px}
+  .turn-caption p{font-size:12.5px}
+  /* stack all captions in one lower, centered zone (below the shoe, above the
+     HUD) so they never collide with the section title on narrow screens */
+  .cap-1,.cap-2,.cap-3{left:9vw;right:9vw;max-width:none;top:auto;bottom:15%;text-align:center}
+  .turn-hud{gap:10px;padding:8px 16px 8px 10px;bottom:18px}
+  .hud-label{display:none}
+  .turn-swatches{right:14px;bottom:18px}
+}
+
+/* ---------- Story-Kapitel ---------- */
+.story{padding:130px 0;background:var(--bg)}
+.story-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);
+  align-items:center;margin-bottom:120px;
+}
+.story-row:last-child{margin-bottom:0}
+.story-row.flip .story-media{order:2}
+.story-media{position:relative}
+.story-media .frame{
+  border-radius:var(--radius);overflow:hidden;position:relative;
+  box-shadow:0 30px 70px -30px rgba(28,28,30,.35);
+}
+.story-media .frame img{width:100%;transform:scale(1.12);will-change:transform}
+.story-media .tag{
+  position:absolute;z-index:3;bottom:-18px;left:28px;
+  background:var(--dark);color:#fff;border-radius:14px;padding:12px 20px;
+  font-size:14px;font-weight:700;box-shadow:0 18px 40px -14px rgba(0,0,0,.5);
+  display:flex;gap:10px;align-items:center;
+}
+.story-media .tag em{font-style:normal;color:var(--accent)}
+.story-copy .chapter{
+  font-size:clamp(60px,7vw,96px);font-weight:900;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px rgba(28,28,30,.18);
+  margin-bottom:4px;
+}
+.story-copy h3{font-size:clamp(26px,3vw,38px);margin:10px 0 18px}
+.story-copy p{color:var(--ink-soft);font-size:17px;margin-bottom:16px}
+.story-list{list-style:none;margin-top:22px;display:grid;gap:12px}
+.story-list li{display:flex;gap:12px;align-items:flex-start;font-weight:600;font-size:15.5px}
+.story-list li::before{
+  content:"";flex:0 0 auto;width:20px;height:20px;margin-top:3px;border-radius:50%;
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    linear-gradient(135deg,var(--accent),var(--accent-dark)) border-box;
+  border:2px solid transparent;
+  box-shadow:inset 0 0 0 3px #fff;
+  background-color:var(--accent);
+}
+@media(max-width:860px){
+  .story{padding:90px 0}
+  .story-row{grid-template-columns:1fr;gap:44px;margin-bottom:90px}
+  .story-row.flip .story-media{order:0}
+}
+
+/* ---------- Zahlen (dunkel) ---------- */
+.stats{
+  position:relative;background:var(--dark);color:#f5f4f1;padding:120px 0;overflow:clip;
+}
+.stats::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(700px 400px at 15% 0%,rgba(232,115,74,.16),transparent 60%),
+    radial-gradient(700px 500px at 90% 100%,rgba(232,115,74,.10),transparent 60%);
+  pointer-events:none;
+}
+.stats .container{position:relative;z-index:2}
+.stats .section-head p{color:#b9b6b0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat-card{
+  border:1px solid rgba(255,255,255,.10);border-radius:var(--radius);
+  background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  padding:34px 28px;
+  transition:transform .35s ease, border-color .35s ease;
+}
+.stat-card:hover{transform:translateY(-6px);border-color:rgba(232,115,74,.5)}
+.stat-value{
+  font-size:clamp(40px,4.6vw,62px);font-weight:900;letter-spacing:-.03em;line-height:1;
+  font-variant-numeric:tabular-nums;
+  background:linear-gradient(120deg,#fff 30%,var(--accent));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.stat-value small{font-size:.55em;font-weight:800}
+.stat-label{margin-top:14px;font-size:14px;color:#b9b6b0}
+@media(max-width:980px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.stats-grid{grid-template-columns:1fr 1fr;gap:12px}.stat-card{padding:24px 18px}}
+
+/* ---------- Material / Vergleich ---------- */
+.material{padding:130px 0;background:var(--bg)}
+.compare{
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff;
+  box-shadow:0 30px 80px -40px rgba(28,28,30,.25);
+}
+.compare-row{
+  display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;align-items:center;
+  padding:20px 28px;border-top:1px solid var(--line);gap:16px;
+}
+.compare-row:first-child{border-top:none;background:linear-gradient(0deg,rgba(232,115,74,.05),transparent)}
+.compare-row.head{background:var(--dark);color:#fff;border-top:none;padding:22px 28px}
+.compare-row.head div{font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+.compare-row.head div:first-child{letter-spacing:0;text-transform:none;font-size:17px}
+.compare-row .crit{font-weight:700;font-size:15.5px}
+.compare-row .crit span{display:block;font-weight:500;font-size:12.5px;color:var(--ink-soft)}
+.bar{
+  height:8px;border-radius:99px;background:#efece6;overflow:hidden;position:relative;max-width:150px;
+}
+.bar i{
+  position:absolute;inset:0;border-radius:99px;transform:scaleX(0);transform-origin:0 50%;
+  transition:transform 1.2s cubic-bezier(.22,.9,.24,1);
+}
+.bar.duflex i{background:linear-gradient(90deg,var(--accent),var(--accent-dark))}
+.bar.other i{background:#c9c5bd}
+.in-view .bar i{transform:scaleX(var(--v))}
+.cell{display:grid;gap:6px}
+.cell b{font-size:13px;font-variant-numeric:tabular-nums}
+.duflex-col{color:var(--accent-dark)}
+.compare-note{margin-top:18px;font-size:13px;color:var(--ink-soft)}
+@media(max-width:760px){
+  .compare-row{grid-template-columns:1.4fr 1fr 1fr;padding:16px 16px}
+  .compare-row div:nth-child(4){display:none}
+  .compare-row.head div:nth-child(4){display:none}
+}
+
+/* ---------- Farbwelt ---------- */
+.colors{padding:130px 0;background:linear-gradient(180deg,var(--bg),#f4f1ec 60%,var(--bg))}
+.colors-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.color-card{
+  position:relative;border-radius:calc(var(--radius) + 6px);overflow:hidden;cursor:pointer;
+  border:1px solid var(--line);min-height:420px;background:#fff;
+  transition:transform .4s ease, box-shadow .4s ease;
+  display:flex;flex-direction:column;
+}
+.color-card:hover{transform:translateY(-8px);box-shadow:0 40px 80px -40px rgba(28,28,30,.4)}
+.color-card .bg{position:absolute;inset:0;transition:transform .6s ease}
+.color-card:hover .bg{transform:scale(1.05)}
+.color-card.black .bg{background:radial-gradient(120% 100% at 50% 0%,#3a3a3f,#161618)}
+.color-card.blue .bg{background:radial-gradient(120% 100% at 50% 0%,#3d49c9,#1d2270)}
+.color-card .bg::after{
+  content:"";position:absolute;left:50%;top:72%;width:84%;height:26%;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(255,255,255,.22),transparent 70%);
+}
+.color-card img{
+  position:relative;z-index:2;width:78%;margin:auto;
+  filter:drop-shadow(0 30px 26px rgba(0,0,0,.45));
+  transition:transform .6s cubic-bezier(.22,.9,.3,1.2);
+}
+.color-card:hover img{transform:rotate(-6deg) scale(1.06)}
+.color-card .info{
+  position:relative;z-index:2;padding:24px 28px;color:#fff;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.color-card .info h3{font-size:22px}
+.color-card .info span{font-size:13px;opacity:.75}
+.color-card .go{
+  width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  transition:background .3s, transform .3s;flex:0 0 auto;
+}
+.color-card:hover .go{background:var(--accent);transform:rotate(45deg)}
+.colors-hint{margin-top:22px;font-size:14px;color:var(--ink-soft);text-align:center}
+@media(max-width:760px){.colors-grid{grid-template-columns:1fr}.color-card{min-height:340px}}
+
+/* ---------- Stimmen ---------- */
+.voices{padding:130px 0;background:var(--bg)}
+.voices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.voice{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px;display:flex;flex-direction:column;gap:18px;
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.voice:hover{transform:translateY(-6px);box-shadow:0 30px 60px -35px rgba(28,28,30,.35)}
+.voice .stars{color:var(--accent);letter-spacing:3px;font-size:15px}
+.voice p{font-size:15.5px;color:var(--ink-soft);flex:1}
+.voice p strong{color:var(--ink)}
+.voice-who{display:flex;align-items:center;gap:14px}
+.avatar{
+  width:46px;height:46px;border-radius:50%;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:15px;color:#fff;
+}
+.a1{background:linear-gradient(135deg,#e8734a,#c85f39)}
+.a2{background:linear-gradient(135deg,#3d49c9,#1d2270)}
+.a3{background:linear-gradient(135deg,#3a3a3f,#161618)}
+.voice-who b{display:block;font-size:15px}
+.voice-who span{font-size:12.5px;color:var(--ink-soft)}
+@media(max-width:860px){.voices-grid{grid-template-columns:1fr}}
+
+/* ---------- CTA ---------- */
+.cta{
+  position:relative;background:var(--dark);color:#fff;overflow:clip;
+  padding:140px 0;
+}
+.cta-glow-1,.cta-glow-2{
+  position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;will-change:transform;
+}
+.cta-glow-1{width:640px;height:640px;left:-160px;top:-200px;background:rgba(232,115,74,.22)}
+.cta-glow-2{width:520px;height:520px;right:-140px;bottom:-220px;background:rgba(61,73,201,.20)}
+.cta-inner{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;
+}
+.cta-copy h2{font-size:clamp(34px,4.6vw,58px);margin:16px 0 20px}
+.cta-copy p{color:#b9b6b0;font-size:18px;max-width:480px;margin-bottom:34px}
+.sizes{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+.size{
+  min-width:52px;padding:10px 0;text-align:center;border-radius:12px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.18);font-weight:700;font-size:14px;color:#e9e7e2;
+  background:transparent;transition:all .25s;
+}
+.size:hover{border-color:#fff}
+.size.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 10px 26px -8px rgba(232,115,74,.6)}
+.cta-price{display:flex;align-items:baseline;gap:14px;margin-bottom:26px}
+.cta-price .now{font-size:44px;font-weight:900;letter-spacing:-.02em}
+.cta-price .old{font-size:19px;color:#8b8880;text-decoration:line-through}
+.cta-price .save{
+  font-size:12px;font-weight:800;background:rgba(232,115,74,.16);color:var(--accent);
+  border:1px solid rgba(232,115,74,.4);padding:5px 12px;border-radius:99px;letter-spacing:.06em;
+  white-space:nowrap;
+}
+.cta-stage{position:relative;min-height:380px}
+.cta-card{
+  position:relative;z-index:2;
+  background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.14);border-radius:calc(var(--radius) + 8px);
+  padding:40px 36px 36px;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+}
+.cta-card img{position:relative;z-index:2;width:88%;margin:0 auto 8px;filter:drop-shadow(0 34px 30px rgba(0,0,0,.55));will-change:transform}
+.cta-card::before{
+  content:"";position:absolute;left:50%;top:34%;width:78%;height:34%;
+  transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(255,255,255,.16),transparent 70%);
+}
+.cta-card .row{display:flex;justify-content:space-between;font-size:14px;color:#b9b6b0;padding:10px 0;border-top:1px solid rgba(255,255,255,.1)}
+.cta-card .row b{color:#fff}
+.cta-badge{
+  position:absolute;z-index:3;top:-18px;right:26px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;
+  border-radius:999px;padding:10px 20px;font-weight:800;font-size:13px;letter-spacing:.06em;
+  box-shadow:0 14px 34px -10px rgba(232,115,74,.7);
+}
+.cta-note{margin-top:18px;font-size:13px;color:#8b8880}
+@media(max-width:900px){
+  .cta{padding:100px 0}
+  .cta-inner{grid-template-columns:1fr;gap:50px}
+}
+
+/* ---------- Footer ---------- */
+.footer{background:#0e0e10;color:#a7a49e;padding:80px 0 40px;font-size:14.5px}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:56px}
+.footer .brand{color:#fff;margin-bottom:14px;display:inline-block}
+.footer h4{color:#fff;font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px}
+.footer ul{list-style:none;display:grid;gap:10px}
+.footer a:hover{color:#fff}
+.footer-disclaimer{
+  border:1px solid rgba(232,115,74,.35);background:rgba(232,115,74,.07);
+  border-radius:14px;padding:18px 22px;margin-bottom:36px;
+  color:#e9e7e2;font-size:14px;line-height:1.6;
+}
+.footer-disclaimer strong{color:var(--accent)}
+.footer-base{
+  border-top:1px solid rgba(255,255,255,.09);padding-top:26px;
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;
+}
+@media(max-width:860px){.footer-grid{grid-template-columns:1fr 1fr}}
+
+/* ---------- Reveal / Parallax ---------- */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.22,.9,.3,1), transform .9s cubic-bezier(.22,.9,.3,1)}
+.reveal.d1{transition-delay:.08s}
+.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}
+.reveal.in-view{opacity:1;transform:none}
+[data-parallax]{will-change:transform}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}
+  .reveal{opacity:1;transform:none}
+  .marquee-track{animation:none}
+  .hero-shoe{animation:none}
+  .hero-ring{animation:none}
+  .in-view .bar i{transform:scaleX(var(--v))}
+}
+</style>
+</head>
+<body>
+
+<div id="progressbar" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">DUX<em>.</em></a>
+    <nav class="nav-links" aria-label="Hauptnavigation">
+      <a href="#rotation">360°</a>
+      <a href="#story">Duflex®</a>
+      <a href="#material">Vergleich</a>
+      <a href="#farben">Farben</a>
+      <a href="#stimmen">Stimmen</a>
+    </nav>
+    <a class="btn btn-primary" href="#kaufen">Jetzt sichern</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="hero">
+    <div class="hero-word" data-parallax="-0.06" aria-hidden="true">DUX</div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow reveal">Chung Shi · Duflex® Technologie</span>
+        <h1 class="reveal d1">Ein Schuh.<br>Aus einem <span class="accent">Guss.</span></h1>
+        <p class="lede reveal d2">
+          Der DUX ist kein gewöhnlicher Clog. Sein Duflex®-Material federt jeden
+          Schritt, formt sich an deinen Fuß – und wiegt dabei fast nichts.
+          Erlebe ihn hier aus jedem Winkel.
+        </p>
+        <div class="hero-actions reveal d3">
+          <a class="btn btn-primary" href="#kaufen">Jetzt entdecken</a>
+          <a class="btn btn-ghost" href="#rotation">360°-Ansicht starten ↓</a>
+        </div>
+        <div class="hero-meta reveal d3">
+          <div><strong data-count="360" data-suffix="°">0°</strong><span>Rundum-Ansicht</span></div>
+          <div><strong data-count="195" data-suffix="&nbsp;g">0 g</strong><span>Federleicht (Gr. 42)</span></div>
+          <div><strong data-count="100" data-suffix="&nbsp;%">0 %</strong><span>Wasserfest</span></div>
+        </div>
+      </div>
+      <div class="hero-stage">
+        <div class="hero-blob" data-parallax="0.05" aria-hidden="true"></div>
+        <div class="hero-ring" aria-hidden="true"></div>
+        <img class="hero-shoe" data-parallax="-0.04" src="images/cut-black.png" alt="DUX Clog in Schwarz, freigestellt">
+        <div class="hero-chip chip-1" data-parallax="-0.1"><span class="dot"></span> Duflex® Material</div>
+        <div class="hero-chip chip-2" data-parallax="0.08"><span class="dot"></span> Gedämpft. Geformt. Gegossen.</div>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">
+      <div class="mouse"></div>
+      <span>Scrollen</span>
+    </div>
+  </section>
+
+  <!-- ================= MARQUEE ================= -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marquee-track">
+      <span>DUX <b>·</b> Duflex® <b>·</b> Chung Shi <b>·</b> Aus einem Guss <b>·</b> Federleicht <b>·</b> Wasserfest <b>·</b></span>
+      <span>DUX <b>·</b> Duflex® <b>·</b> Chung Shi <b>·</b> Aus einem Guss <b>·</b> Federleicht <b>·</b> Wasserfest <b>·</b></span>
+    </div>
+  </div>
+
+  <!-- ================= 360° STICKY ================= -->
+  <section class="turn" id="rotation" aria-label="360-Grad-Produktansicht">
+    <div class="turn-sticky">
+      <div class="turn-title">
+        <span class="eyebrow">Die volle Umdrehung</span>
+        <h2>Dreh ihn. Mit deinem Scroll.</h2>
+      </div>
+
+      <div class="turn-frame-wrap" id="turn-stage">
+        <div class="turn-layer" id="layer-black" aria-hidden="false"></div>
+        <div class="turn-layer" id="layer-blue" aria-hidden="true"></div>
+      </div>
+
+      <div class="turn-caption cap-1" id="cap-1">
+        <span class="num">01 / SILHOUETTE</span>
+        <h3>Eine Linie, kein Bruch.</h3>
+        <p>Ober- und Unterschale entstehen in einem einzigen Gussvorgang – ohne Naht, ohne Klebstoff.</p>
+      </div>
+      <div class="turn-caption cap-2" id="cap-2">
+        <span class="num">02 / VENTILATION</span>
+        <h3>Luft von allen Seiten.</h3>
+        <p>Die charakteristischen Öffnungen belüften den Fuß und lassen Wasser sofort abfließen.</p>
+      </div>
+      <div class="turn-caption cap-3" id="cap-3">
+        <span class="num">03 / FERSENRIEMEN</span>
+        <h3>Halt, wenn du ihn brauchst.</h3>
+        <p>Der drehbare Riemen sichert die Ferse – oder klappt nach vorn für den schnellen Slip-in.</p>
+      </div>
+
+      <div class="turn-hud" aria-hidden="true">
+        <svg class="hud-ring" viewBox="0 0 44 44">
+          <circle class="bg" cx="22" cy="22" r="18"></circle>
+          <circle class="fg" id="hud-arc" cx="22" cy="22" r="18"></circle>
+        </svg>
+        <div>
+          <div class="hud-deg" id="hud-deg">0°</div>
+          <div class="hud-label" id="hud-frame">Frame 1</div>
+        </div>
+      </div>
+
+      <div class="turn-swatches" role="group" aria-label="Farbe wählen">
+        <button class="swatch swatch-black active" id="sw-black" aria-label="Farbe Schwarz" title="Schwarz"></button>
+        <button class="swatch swatch-blue" id="sw-blue" aria-label="Farbe Blau" title="Blau"></button>
+      </div>
+
+      <div class="turn-loader" id="turn-loader">Lade 360°&nbsp;…</div>
+    </div>
+  </section>
+
+  <!-- ================= STORY ================= -->
+  <section class="story" id="story">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Die Duflex®-Story</span>
+        <h2>Drei Kapitel. Ein Material.</h2>
+        <p>Was den DUX besonders macht, sieht man nicht sofort – man spürt es bei jedem Schritt.</p>
+      </div>
+
+      <div class="story-row">
+        <div class="story-media reveal">
+          <div class="frame"><img src="images/hero-black.jpg" alt="DUX in Schwarz, Detailansicht" data-parallax-img="0.08"></div>
+          <div class="tag">Kapitel <em>Material</em></div>
+        </div>
+        <div class="story-copy reveal d1">
+          <div class="chapter">01</div>
+          <span class="eyebrow">Duflex® Compound</span>
+          <h3>Weich, wo es zählt.<br>Fest, wo es trägt.</h3>
+          <p>
+            Duflex® ist ein geschlossenzelliger Hightech-Schaum, der Druck aufnimmt
+            und Energie zurückgibt. Beim Auftreten gibt er millimetergenau nach,
+            beim Abrollen stützt er – ganz ohne separate Dämpfungselemente.
+          </p>
+          <ul class="story-list">
+            <li>Formt sich in den ersten Tagen an deinen Fuß an</li>
+            <li>Geruchsneutral und hautfreundlich</li>
+            <li>Bleibt auch bei Kälte flexibel</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="story-row flip">
+        <div class="story-media reveal">
+          <div class="frame"><img src="images/hero-blue.jpg" alt="DUX in Blau, Detailansicht" data-parallax-img="0.08"></div>
+          <div class="tag">Kapitel <em>Fußbett</em></div>
+        </div>
+        <div class="story-copy reveal d1">
+          <div class="chapter">02</div>
+          <span class="eyebrow">Anatomisches Fußbett</span>
+          <h3>Wie barfuß gehen.<br>Nur besser gefedert.</h3>
+          <p>
+            Das integrierte Fußbett folgt der natürlichen Fußform: erhöhter
+            Zehenfreiraum, sanfte Mittelfußstütze, tiefe Fersenschale. So steht
+            der Fuß stabil, ohne eingeengt zu werden.
+          </p>
+          <ul class="story-list">
+            <li>Rutschhemmende Laufsohle mit Profil</li>
+            <li>Fersenschale zentriert jeden Auftritt</li>
+            <li>Auch für lange Steh-Tage gemacht</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="story-row">
+        <div class="story-media reveal">
+          <div class="frame"><img src="images/360/black/dux-360-160.jpg" alt="DUX von der Seite" data-parallax-img="0.08"></div>
+          <div class="tag">Kapitel <em>Alltag</em></div>
+        </div>
+        <div class="story-copy reveal d1">
+          <div class="chapter">03</div>
+          <span class="eyebrow">Für jeden Tag</span>
+          <h3>Garten, Klinik, Küste.<br>Ein Schuh für alles.</h3>
+          <p>
+            Ob im Garten, auf Station, am Strand oder einfach zu Hause: Der DUX
+            ist in Sekunden an, in Sekunden sauber. Abspülen, abtropfen, weiter.
+            Mehr Pflege braucht er nicht.
+          </p>
+          <ul class="story-list">
+            <li>Mit klarem Wasser abwaschbar</li>
+            <li>Trocknet in Minuten</li>
+            <li>Riemen vor oder zurück – zwei Tragestile</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ZAHLEN ================= -->
+  <section class="stats" id="zahlen">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" style="color:var(--accent)">In Zahlen</span>
+        <h2>Leicht zu merken.<br>Noch leichter zu tragen.</h2>
+        <p>Ein paar Werte, die zeigen, warum der DUX seit Jahren ein Dauerläufer ist.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card reveal"><div class="stat-value"><span data-count="195">0</span><small>&nbsp;g</small></div><div class="stat-label">Gewicht pro Schuh in Größe 42 – leichter als eine Tafel Schokolade.</div></div>
+        <div class="stat-card reveal d1"><div class="stat-value"><span data-count="93">0</span><small>&nbsp;%</small></div><div class="stat-label">Energierückgabe des Duflex®-Schaums im Labor-Rebound-Test.</div></div>
+        <div class="stat-card reveal d2"><div class="stat-value"><span data-count="582">0</span></div><div class="stat-label">Einzelbilder in der 360°-Ansicht auf dieser Seite – für butterweiche Rotation.</div></div>
+        <div class="stat-card reveal d3"><div class="stat-value"><span data-count="2">0</span><small>&nbsp;Jahre</small></div><div class="stat-label">Garantie auf Material und Verarbeitung jedes DUX.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MATERIAL / VERGLEICH ================= -->
+  <section class="material" id="material">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Der Material-Vergleich</span>
+        <h2>Duflex® gegen den Rest.</h2>
+        <p>Wie schlägt sich das DUX-Material gegen klassisches EVA und Kork-Fußbetten? Ein ehrlicher Blick auf die Werte.</p>
+      </div>
+      <div class="compare reveal" id="compare">
+        <div class="compare-row head">
+          <div>Eigenschaft</div>
+          <div class="duflex-col">Duflex®</div>
+          <div>EVA-Schaum</div>
+          <div>Kork-Fußbett</div>
+        </div>
+        <div class="compare-row">
+          <div class="crit">Dämpfungs-Rückstellung<span>Rebound nach Kompression</span></div>
+          <div class="cell duflex-col"><b>93&nbsp;%</b><div class="bar duflex" style="--v:.93"><i></i></div></div>
+          <div class="cell"><b>71&nbsp;%</b><div class="bar other" style="--v:.71"><i></i></div></div>
+          <div class="cell"><b>38&nbsp;%</b><div class="bar other" style="--v:.38"><i></i></div></div>
+        </div>
+        <div class="compare-row">
+          <div class="crit">Flexibilität<span>Biegewinkel ohne Ermüdung</span></div>
+          <div class="cell duflex-col"><b>Sehr hoch</b><div class="bar duflex" style="--v:.95"><i></i></div></div>
+          <div class="cell"><b>Hoch</b><div class="bar other" style="--v:.78"><i></i></div></div>
+          <div class="cell"><b>Gering</b><div class="bar other" style="--v:.25"><i></i></div></div>
+        </div>
+        <div class="compare-row">
+          <div class="crit">Gewicht<span>relative Leichtigkeit</span></div>
+          <div class="cell duflex-col"><b>195&nbsp;g</b><div class="bar duflex" style="--v:.9"><i></i></div></div>
+          <div class="cell"><b>~240&nbsp;g</b><div class="bar other" style="--v:.72"><i></i></div></div>
+          <div class="cell"><b>~380&nbsp;g</b><div class="bar other" style="--v:.42"><i></i></div></div>
+        </div>
+        <div class="compare-row">
+          <div class="crit">Wasserfest &amp; abwaschbar<span>Pflege im Alltag</span></div>
+          <div class="cell duflex-col"><b>100&nbsp;%</b><div class="bar duflex" style="--v:1"><i></i></div></div>
+          <div class="cell"><b>100&nbsp;%</b><div class="bar other" style="--v:1"><i></i></div></div>
+          <div class="cell"><b>Nein</b><div class="bar other" style="--v:.08"><i></i></div></div>
+        </div>
+        <div class="compare-row">
+          <div class="crit">Anpassung an den Fuß<span>Memory-Effekt</span></div>
+          <div class="cell duflex-col"><b>Dauerhaft</b><div class="bar duflex" style="--v:.88"><i></i></div></div>
+          <div class="cell"><b>Kaum</b><div class="bar other" style="--v:.3"><i></i></div></div>
+          <div class="cell"><b>Gut</b><div class="bar other" style="--v:.7"><i></i></div></div>
+        </div>
+      </div>
+      <p class="compare-note reveal">Vergleichswerte beispielhaft für diese Demo aufbereitet.</p>
+    </div>
+  </section>
+
+  <!-- ================= FARBEN ================= -->
+  <section class="colors" id="farben">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Zwei Charaktere</span>
+        <h2>Wähl deine Seite.</h2>
+        <p>Tiefes Schwarz oder sattes Blau – ein Klick auf eine Farbe stellt oben auch die 360°-Ansicht um.</p>
+      </div>
+      <div class="colors-grid">
+        <a class="color-card black reveal" href="#rotation" data-color="black">
+          <div class="bg"></div>
+          <img src="images/cut-black.png" alt="DUX in Schwarz">
+          <div class="info">
+            <div><h3>Midnight Black</h3><span>Unaufgeregt. Unverwüstlich.</span></div>
+            <div class="go">→</div>
+          </div>
+        </a>
+        <a class="color-card blue reveal d1" href="#rotation" data-color="blue">
+          <div class="bg"></div>
+          <img src="images/cut-blue.png" alt="DUX in Blau">
+          <div class="info">
+            <div><h3>Deep Ocean Blue</h3><span>Frisch. Unübersehbar.</span></div>
+            <div class="go">→</div>
+          </div>
+        </a>
+      </div>
+      <p class="colors-hint reveal">Tipp: In der 360°-Ansicht kannst du den Schuh auch mit der Maus oder dem Finger drehen.</p>
+    </div>
+  </section>
+
+  <!-- ================= STIMMEN ================= -->
+  <section class="voices" id="stimmen">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Stimmen</span>
+        <h2>Was DUX-Träger sagen.</h2>
+        <p>Drei von vielen – aus Pflege, Garten und Werkstatt.</p>
+      </div>
+      <div class="voices-grid">
+        <div class="voice reveal">
+          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <p>„Zwölf Stunden Schicht auf Station – und meine Füße sind abends <strong>nicht mehr geschwollen</strong>. Ich habe direkt ein zweites Paar bestellt, eins bleibt in der Klinik.“</p>
+          <div class="voice-who">
+            <div class="avatar a1">MK</div>
+            <div><b>Miriam K.</b><span>Gesundheits- und Krankenpflegerin</span></div>
+          </div>
+        </div>
+        <div class="voice reveal d1">
+          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <p>„Im Garten, beim Einkaufen, am Badesee: Der DUX ist <strong>immer der erste Schuh an der Tür</strong>. Einmal mit dem Schlauch abgespritzt, sieht er wieder aus wie neu.“</p>
+          <div class="voice-who">
+            <div class="avatar a2">JR</div>
+            <div><b>Jonas R.</b><span>Hobbygärtner</span></div>
+          </div>
+        </div>
+        <div class="voice reveal d2">
+          <div class="stars" aria-label="5 von 5 Sternen">★★★★★</div>
+          <p>„Ich stehe den ganzen Tag auf Betonboden. Seit dem DUX ist das <strong>Fersenbrennen komplett weg</strong>. Das Material federt wirklich anders als meine alten Clogs.“</p>
+          <div class="voice-who">
+            <div class="avatar a3">SB</div>
+            <div><b>Sandra B.</b><span>Werkstattleiterin</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="cta" id="kaufen">
+    <div class="cta-glow-1" data-parallax="0.1" aria-hidden="true"></div>
+    <div class="cta-glow-2" data-parallax="-0.08" aria-hidden="true"></div>
+    <div class="container cta-inner">
+      <div class="cta-copy reveal">
+        <span class="eyebrow" style="color:var(--accent)">Limitierte Demo-Edition</span>
+        <h2>Dein DUX wartet schon.</h2>
+        <p>Wähle deine Größe, wähle deine Farbe – und spür selbst, was „aus einem Guss“ bedeutet. 30 Tage Rückgaberecht inklusive.</p>
+        <div class="cta-price">
+          <span class="now">49,90&nbsp;€</span>
+          <span class="old">64,90&nbsp;€</span>
+          <span class="save">–23&nbsp;%</span>
+        </div>
+        <div class="sizes" role="group" aria-label="Größe wählen">
+          <button class="size">36</button><button class="size">37</button><button class="size">38</button>
+          <button class="size">39</button><button class="size">40</button><button class="size">41</button>
+          <button class="size active">42</button><button class="size">43</button><button class="size">44</button>
+          <button class="size">45</button><button class="size">46</button>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#top">In den Warenkorb (Demo)</a>
+          <a class="btn btn-light" href="#rotation">Nochmal ansehen</a>
+        </div>
+        <p class="cta-note">Demo-Seite – es findet kein echter Verkauf statt.</p>
+      </div>
+      <div class="cta-stage reveal d1">
+        <div class="cta-card">
+          <div class="cta-badge">Bestseller</div>
+          <img id="cta-shoe" src="images/cut-black.png" alt="DUX Clog" data-parallax="-0.05">
+          <div class="row"><span>Farbe</span><b id="cta-color">Midnight Black</b></div>
+          <div class="row"><span>Material</span><b>Duflex®-Schaum, ein Guss</b></div>
+          <div class="row"><span>Lieferzeit</span><b>2–4 Werktage</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="#top">DUX<em style="color:var(--accent)">.</em></a>
+        <p>Der Clog aus Duflex®-Material – federleicht, wasserfest und aus einem Guss. Diese Seite ist ein technisches Demo-Projekt für scroll-gesteuerte Produktinszenierung.</p>
+      </div>
+      <div>
+        <h4>Produkt</h4>
+        <ul>
+          <li><a href="#rotation">360°-Ansicht</a></li>
+          <li><a href="#story">Duflex®-Story</a></li>
+          <li><a href="#material">Materialvergleich</a></li>
+          <li><a href="#farben">Farben</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul>
+          <li><a href="#kaufen">Größen &amp; Preise</a></li>
+          <li><a href="#stimmen">Bewertungen</a></li>
+          <li><a href="#top">Versand (Demo)</a></li>
+          <li><a href="#top">Rückgabe (Demo)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Weitere Seiten</h4>
+        <ul>
+          <li><a href="index.html">Standard-Website</a></li>
+          <li><a href="variants.html">Design-Varianten</a></li>
+          <li><a href="intro.html">Intro-Animation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <strong>Hinweis:</strong> Demo-/Testseite. Keine offizielle Website von Chung Shi&nbsp;/&nbsp;Duflex.
+      Alle Preise, Bewertungen und Vergleichswerte sind fiktiv und dienen ausschließlich der Demonstration
+      von Web-Technologien (Scroll-Animation, 360°-Viewer, Parallax).
+    </div>
+    <div class="footer-base">
+      <span>© 2026 DUX Flagship Demo</span>
+      <span>Gebaut ohne externe Abhängigkeiten – 100&nbsp;% self-contained.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* =========================================================
+   1) 360°-Viewer: Frames erzeugen + eager laden
+   ========================================================= */
+var COLORS = {
+  black: { dir: "images/360/black/", count: 222, layer: document.getElementById("layer-black"), label: "Midnight Black", loaded: 0, started: false },
+  blue:  { dir: "images/360/blue/",  count: 360, layer: document.getElementById("layer-blue"),  label: "Deep Ocean Blue", loaded: 0, started: false }
+};
+var currentColor = "black";
+var loaderEl = document.getElementById("turn-loader");
+
+function frameSrc(color, i){
+  var n = String(i + 1);
+  while(n.length < 3) n = "0" + n;
+  return COLORS[color].dir + "dux-360-" + n + ".jpg";
+}
+
+function buildLayer(color){
+  var c = COLORS[color];
+  if(c.started) return;
+  c.started = true;
+  var frag = document.createDocumentFragment();
+  for(var i = 0; i < c.count; i++){
+    var img = document.createElement("img");
+    img.src = frameSrc(color, i);
+    img.alt = "";
+    img.draggable = false;
+    img.decoding = "async";
+    img.addEventListener("load", function(){
+      c.loaded++;
+      if(color === "black" && c.loaded >= c.count && loaderEl){
+        loaderEl.classList.add("done");
+      }
+    });
+    frag.appendChild(img);
+  }
+  c.layer.appendChild(frag);
+  c.imgs = c.layer.querySelectorAll("img");
+}
+
+// Schwarz sofort eager laden, Blau kurz danach im Hintergrund
+buildLayer("black");
+if("requestIdleCallback" in window){
+  requestIdleCallback(function(){ buildLayer("blue"); }, { timeout: 4000 });
+} else {
+  setTimeout(function(){ buildLayer("blue"); }, 2500);
+}
+
+/* =========================================================
+   2) Scroll-Engine: Progress, 360°-Frame + Zoom, Parallax
+   ========================================================= */
+var turnSection = document.getElementById("rotation");
+var stage = document.getElementById("turn-stage");
+var hudDeg = document.getElementById("hud-deg");
+var hudFrame = document.getElementById("hud-frame");
+var hudArc = document.getElementById("hud-arc");
+var HUD_CIRC = 113.1;
+var caps = [document.getElementById("cap-1"), document.getElementById("cap-2"), document.getElementById("cap-3")];
+var capRanges = [[0.04, 0.34], [0.36, 0.66], [0.68, 0.97]];
+var progressBar = document.getElementById("progressbar");
+var nav = document.getElementById("nav");
+
+var parallaxEls = [].slice.call(document.querySelectorAll("[data-parallax]"));
+var parallaxImgs = [].slice.call(document.querySelectorAll("[data-parallax-img]"));
+
+var turnProgress = 0;        // Ziel (roh aus Scroll)
+var smoothProgress = 0;      // geglättet
+var dragOffset = 0;          // zusätzliche Drehung per Maus/Finger
+var activeFrame = -1;
+var lastScrollY = window.scrollY;
+var ticking = false;
+
+function clamp(v, a, b){ return v < a ? a : (v > b ? b : v); }
+function easeInOut(t){ return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2)/2; }
+
+function setFrame(color, idx){
+  var c = COLORS[color];
+  if(!c.imgs || !c.imgs.length) return;
+  idx = ((idx % c.count) + c.count) % c.count;
+  var el = c.imgs[idx];
+  if(c.current === el) return;
+  if(c.current) c.current.classList.remove("on");
+  el.classList.add("on");
+  c.current = el;
+  c.currentIdx = idx;
+}
+
+function updateTurn(){
+  var rect = turnSection.getBoundingClientRect();
+  var vh = window.innerHeight;
+  var total = turnSection.offsetHeight - vh;
+  turnProgress = clamp(-rect.top / total, 0, 1);
+
+  // Glättung (bei Reduced Motion direkt)
+  if(reducedMotion){
+    smoothProgress = turnProgress;
+  } else {
+    smoothProgress += (turnProgress - smoothProgress) * 0.18;
+    if(Math.abs(turnProgress - smoothProgress) < 0.0004) smoothProgress = turnProgress;
+  }
+
+  var c = COLORS[currentColor];
+  var rot = smoothProgress + dragOffset;          // 0..1 = eine volle Umdrehung
+  var idx = Math.round(rot * (c.count - 1));
+  setFrame(currentColor, idx);
+
+  // Zoom an Scroll gekoppelt (auf schmalen Screens weniger stark)
+  if(!reducedMotion){
+    var zoomAmp = window.innerWidth < 700 ? 0.18 : 0.42;
+    var s = 0.8 + easeInOut(smoothProgress) * zoomAmp;
+    var ty = (0.5 - smoothProgress) * 4;
+    stage.style.transform = "scale(" + s.toFixed(4) + ") translateY(" + ty.toFixed(2) + "vh)";
+  }
+
+  // HUD
+  var degRaw = ((rot % 1) + 1) % 1;
+  var deg = Math.round(degRaw * 360);
+  hudDeg.textContent = deg + "°";
+  hudFrame.textContent = "Frame " + (((idx % c.count) + c.count) % c.count + 1) + " / " + c.count;
+  hudArc.style.strokeDashoffset = (HUD_CIRC * (1 - degRaw)).toFixed(2);
+
+  // Captions ein-/ausblenden
+  var inSticky = rect.top < vh * 0.5 && rect.bottom > vh * 0.5;
+  for(var i = 0; i < caps.length; i++){
+    var r = capRanges[i];
+    var vis = inSticky && turnProgress >= r[0] && turnProgress <= r[1];
+    var p = vis ? clamp(Math.min(turnProgress - r[0], r[1] - turnProgress) / 0.06, 0, 1) : 0;
+    if(reducedMotion) p = vis ? 1 : 0;
+    caps[i].style.opacity = p.toFixed(3);
+    caps[i].style.transform = "translateY(" + ((1 - p) * 24).toFixed(1) + "px)";
+  }
+}
+
+function updateParallax(){
+  if(reducedMotion) return;
+  var vh = window.innerHeight;
+  for(var i = 0; i < parallaxEls.length; i++){
+    var el = parallaxEls[i];
+    var r = el.getBoundingClientRect();
+    var center = r.top + r.height / 2 - vh / 2;
+    var speed = parseFloat(el.getAttribute("data-parallax")) || 0;
+    el.style.translate = "0 " + (center * speed).toFixed(1) + "px";
+  }
+  for(var j = 0; j < parallaxImgs.length; j++){
+    var im = parallaxImgs[j];
+    var pr = im.parentElement.getBoundingClientRect();
+    if(pr.bottom < 0 || pr.top > vh) continue;
+    var t = (pr.top + pr.height / 2 - vh / 2) / vh; // -1..1
+    var sp = parseFloat(im.getAttribute("data-parallax-img")) || 0.08;
+    im.style.transform = "scale(1.12) translateY(" + (t * sp * -100).toFixed(1) + "px)";
+  }
+}
+
+function updateChrome(){
+  // Fortschrittsbalken
+  var doc = document.documentElement;
+  var max = doc.scrollHeight - window.innerHeight;
+  var p = max > 0 ? window.scrollY / max : 0;
+  progressBar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+
+  // Navbar
+  var y = window.scrollY;
+  nav.classList.toggle("scrolled", y > 40);
+  if(y > 300 && y > lastScrollY + 4){ nav.classList.add("hidden"); }
+  else if(y < lastScrollY - 4 || y < 300){ nav.classList.remove("hidden"); }
+  lastScrollY = y;
+}
+
+function frameLoop(){
+  updateTurn();
+  updateParallax();
+  requestAnimationFrame(frameLoop);
+}
+requestAnimationFrame(frameLoop);
+
+window.addEventListener("scroll", function(){
+  if(!ticking){
+    ticking = true;
+    requestAnimationFrame(function(){ updateChrome(); ticking = false; });
+  }
+}, { passive: true });
+updateChrome();
+
+/* =========================================================
+   3) Drag-to-rotate auf der 360°-Bühne
+   ========================================================= */
+(function(){
+  var dragging = false, startX = 0, startOffset = 0;
+  stage.addEventListener("pointerdown", function(e){
+    dragging = true;
+    startX = e.clientX;
+    startOffset = dragOffset;
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener("pointermove", function(e){
+    if(!dragging) return;
+    var dx = e.clientX - startX;
+    dragOffset = startOffset + dx / 500; // 500px = eine volle Umdrehung
+  });
+  function stop(){ dragging = false; }
+  stage.addEventListener("pointerup", stop);
+  stage.addEventListener("pointercancel", stop);
+})();
+
+/* =========================================================
+   4) Farbwechsel (mit decode()-Preload gegen Aufblitzen)
+   ========================================================= */
+var swBlack = document.getElementById("sw-black");
+var swBlue = document.getElementById("sw-blue");
+var ctaShoe = document.getElementById("cta-shoe");
+var ctaColor = document.getElementById("cta-color");
+
+function setColor(color){
+  if(color === currentColor) return;
+  buildLayer(color); // sicherstellen, dass die Serie existiert/lädt
+  var c = COLORS[color];
+  var rot = smoothProgress + dragOffset;
+  var idx = Math.round(rot * (c.count - 1));
+  idx = ((idx % c.count) + c.count) % c.count;
+
+  // Ziel-Frame vorab dekodieren, damit beim Umschalten nichts leer aufblitzt
+  var pre = new Image();
+  pre.src = frameSrc(color, idx);
+  var apply = function(){
+    var old = COLORS[currentColor];
+    if(old.current){ old.current.classList.remove("on"); old.current = null; }
+    old.layer.setAttribute("aria-hidden", "true");
+    currentColor = color;
+    c.layer.setAttribute("aria-hidden", "false");
+    setFrame(color, idx);
+    swBlack.classList.toggle("active", color === "black");
+    swBlue.classList.toggle("active", color === "blue");
+    ctaShoe.src = color === "black" ? "images/cut-black.png" : "images/cut-blue.png";
+    ctaColor.textContent = c.label;
+  };
+  if(pre.decode){ pre.decode().then(apply).catch(apply); } else { pre.onload = apply; pre.onerror = apply; apply(); }
+}
+
+swBlack.addEventListener("click", function(){ setColor("black"); });
+swBlue.addEventListener("click", function(){ setColor("blue"); });
+[].forEach.call(document.querySelectorAll(".color-card"), function(card){
+  card.addEventListener("click", function(){
+    setColor(card.getAttribute("data-color"));
+  });
+});
+
+/* =========================================================
+   5) Reveal-Animationen + Counter (IntersectionObserver)
+   ========================================================= */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      entry.target.classList.add("in-view");
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+[].forEach.call(document.querySelectorAll(".reveal, .compare"), function(el){ io.observe(el); });
+
+function animateCount(el){
+  var target = parseFloat(el.getAttribute("data-count"));
+  var suffix = el.getAttribute("data-suffix") || "";
+  if(reducedMotion){
+    el.innerHTML = target + suffix;
+    return;
+  }
+  var dur = 1400, t0 = null;
+  function step(ts){
+    if(!t0) t0 = ts;
+    var p = clamp((ts - t0) / dur, 0, 1);
+    var eased = 1 - Math.pow(1 - p, 3);
+    el.innerHTML = Math.round(target * eased) + suffix;
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+var counterIO = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      animateCount(entry.target);
+      counterIO.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.6 });
+[].forEach.call(document.querySelectorAll("[data-count]"), function(el){ counterIO.observe(el); });
+
+/* =========================================================
+   6) Größen-Buttons (CTA)
+   ========================================================= */
+[].forEach.call(document.querySelectorAll(".size"), function(btn){
+  btn.addEventListener("click", function(){
+    [].forEach.call(document.querySelectorAll(".size"), function(b){ b.classList.remove("active"); });
+    btn.classList.add("active");
+  });
+});
+
+})();
+</script>
+</body>
+</html>
