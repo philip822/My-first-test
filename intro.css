@@ -1,0 +1,143 @@
+:root {
+  --stage-bg: #f0f0f0;
+  --text: #1c1c1e;
+  --muted: #6b6b70;
+  --primary: #e8734a;
+  --primary-dark: #c85f39;
+  --border: #e7e4de;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--stage-bg);
+  line-height: 1.6;
+}
+
+/* ---------- Cinematic intro ---------- */
+.intro { position: relative; height: 340vh; }
+.intro-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;   /* exactly the frames' baked-in background => no seam */
+}
+/* subtle vignette for depth, layered above the frames but not tied to the
+   image square, so it never creates a visible edge around the shoe */
+.intro-sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 95% at 50% 42%, transparent 52%, rgba(0,0,0,0.07) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.intro-stage {
+  position: relative;
+  width: min(86vmin, 560px);
+  height: min(86vmin, 560px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro-frames {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: scale(0.4);            /* JS drives the zoom */
+  will-change: transform;
+}
+.intro-frames img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.intro-frames img.visible { opacity: 1; }
+
+.intro-copy {
+  position: absolute;
+  top: 12%;
+  left: 0; right: 0;
+  text-align: center;
+  pointer-events: none;
+  z-index: 4;
+}
+.intro-title {
+  margin: 0;
+  font-size: clamp(64px, 16vw, 168px);
+  font-weight: 800;
+  letter-spacing: 4px;
+  line-height: 1;
+  color: var(--text);
+}
+.intro-tagline {
+  margin: 6px 0 0;
+  font-size: clamp(15px, 2.4vw, 21px);
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.intro-hint {
+  position: absolute;
+  z-index: 4;
+  bottom: 34px;
+  left: 0; right: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.intro-arrow { font-size: 18px; animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+.intro-cta {
+  position: absolute;
+  z-index: 4;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  padding: 15px 34px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: background 0.2s ease;
+}
+.intro-cta:hover { background: var(--primary-dark); }
+
+/* ---------- Story section below the intro ---------- */
+.story { background: var(--stage-bg); padding: 90px 0 70px; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; text-align: center; }
+.eyebrow { color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; font-size: 13px; margin: 0 0 8px; }
+.story h2 { font-size: clamp(28px, 4vw, 40px); margin: 0 0 14px; line-height: 1.15; }
+.lead { max-width: 620px; margin: 0 auto 40px; color: var(--muted); font-size: 17px; }
+.story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 22px; text-align: left; }
+.story-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+.story-card span { font-size: 30px; }
+.story-card h3 { margin: 12px 0 6px; font-size: 18px; }
+.story-card p { margin: 0; color: var(--muted); font-size: 15px; }
+.story-link { display: inline-block; margin: 44px 0 0; color: var(--primary); font-weight: 700; text-decoration: none; font-size: 17px; }
+.story-link:hover { color: var(--primary-dark); }
+.story-note { margin: 26px 0 0; font-size: 13px; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-arrow { animation: none; }
+}
