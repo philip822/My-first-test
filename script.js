@@ -110,17 +110,17 @@ orderForm.addEventListener('submit', (event) => {
   ctaFeedback.textContent = 'Dein E-Mail-Programm öffnet sich gleich mit der ausgefüllten Anfrage – dort einfach auf „Senden" klicken.';
 });
 
-// Scroll-driven 360° rotation: 150 real photos per color (extracted from a
-// turntable video) swap one after another as you scroll through #aufbau. The
-// section is 350vh tall while its content stays pinned via `position: sticky`,
-// so scroll distance inside the section maps directly to an animation
-// progress 0–1, which picks the active frame. Frames are eager-loaded so none
-// pop in blank during a fast scroll — the whole point is smoothness.
-const ROTATION_FRAME_COUNT = 150;
+// Scroll-driven 360° rotation: every real frame from each color's turntable
+// video (black 222, blue 203 — the maximum the source videos contain) swaps
+// one after another as you scroll through #aufbau. The section is 350vh tall
+// while its content stays pinned via `position: sticky`, so scroll distance
+// inside the section maps directly to an animation progress 0–1, which picks
+// the active frame. Frames are eager-loaded so none pop in blank during a
+// fast scroll — the whole point is smoothness.
 const ROTATION_SETS = {
-  // name (matching the color picker) -> image folder; `frames` is filled lazily
-  'Schwarz': { dir: 'images/360/black', frames: null },
-  'Blau':    { dir: 'images/360/blue',  frames: null },
+  // name (matching the color picker) -> folder + frame count; `frames` lazy
+  'Schwarz': { dir: 'images/360/black', count: 222, frames: null },
+  'Blau':    { dir: 'images/360/blue',  count: 203, frames: null },
 };
 
 const buildVisual = document.getElementById('build-visual');
@@ -136,12 +136,12 @@ function buildRotationFrames(setKey) {
   const set = ROTATION_SETS[setKey];
   if (set.frames) return set.frames;   // build each color's images only once
   const frames = [];
-  for (let i = 1; i <= ROTATION_FRAME_COUNT; i++) {
+  for (let i = 1; i <= set.count; i++) {
     const frameNumber = String(i).padStart(3, '0');
     const img = document.createElement('img');
     img.className = 'build-frame';
     img.src = `${set.dir}/dux-360-${frameNumber}.jpg`;
-    img.alt = `DUX Clog ${setKey}, Drehwinkel ${i} von ${ROTATION_FRAME_COUNT}`;
+    img.alt = `DUX Clog ${setKey}, Drehwinkel ${i} von ${set.count}`;
     img.loading = 'eager';
     frames.push(img);
   }
