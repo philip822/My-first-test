@@ -16,26 +16,46 @@ const colorNames = {
   '#1c1c1e': 'Schwarz',
   '#c23b5a': 'Beere'
 };
-const shoeMock = document.getElementById('shoe-mock');
 const colorNameLabel = document.getElementById('color-name-label');
 const swatches = document.querySelectorAll('.swatch');
+const heroShoe = document.getElementById('hero-shoe');
+const heroGlow = document.getElementById('hero-glow');
 
 const orderColorSelect = document.getElementById('of-color');
+
+// real hero photos exist for these two colors; others just tint the glow
+const HERO_PHOTOS = { 'Schwarz': 'images/hero-black.jpg', 'Blau': 'images/hero-blue.jpg' };
 
 swatches.forEach(swatch => {
   swatch.addEventListener('click', () => {
     const color = swatch.dataset.color;
     const name = colorNames[color] || color;
-    shoeMock.style.setProperty('--sole', color);
     colorNameLabel.textContent = name;
     swatches.forEach(s => s.classList.remove('selected'));
     swatch.classList.add('selected');
     orderColorSelect.value = name;
+    // colored glow behind the hero shoe follows every color choice
+    heroGlow.style.setProperty('--glow', color);
+    // swap the hero photo when we actually have one for this color
+    if (HERO_PHOTOS[name]) {
+      heroShoe.src = HERO_PHOTOS[name];
+      heroShoe.alt = `DUX Clog in ${name}`;
+    }
     // if we have a 360° photo set for this color, switch the rotation to it
     activateRotation(name);
   });
 });
-swatches[0].classList.add('selected');
+
+// start on Schwarz so the hero photo, glow and labels all agree
+(function initColor() {
+  const blackSwatch = document.querySelector('.swatch[data-color="#1c1c1e"]');
+  if (blackSwatch) {
+    blackSwatch.classList.add('selected');
+    colorNameLabel.textContent = 'Schwarz';
+    orderColorSelect.value = 'Schwarz';
+    heroGlow.style.setProperty('--glow', '#1c1c1e');
+  }
+})();
 
 // Testimonial slider
 const testimonials = document.querySelectorAll('.testimonial');
@@ -188,3 +208,57 @@ activateRotation('Schwarz');
 window.addEventListener('scroll', () => requestAnimationFrame(updateBuild));
 window.addEventListener('resize', updateBuild);
 updateBuild();
+
+// ---- Scroll progress bar ----
+const scrollProgressBar = document.getElementById('scroll-progress');
+function updateScrollProgress() {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+  scrollProgressBar.style.width = `${pct}%`;
+}
+window.addEventListener('scroll', () => requestAnimationFrame(updateScrollProgress));
+window.addEventListener('resize', updateScrollProgress);
+updateScrollProgress();
+
+// ---- Back-to-top button ----
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  toTop.classList.toggle('show', window.scrollY > 600);
+});
+toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// ---- Scroll-reveal (fade elements in as they enter the viewport) ----
+// A plain scroll check rather than IntersectionObserver: the observer can miss
+// small elements when a fast scroll over the tall rotation section skips the
+// intersecting moment. Re-checking positions every scroll is reliable at any
+// speed, and once an element is scrolled past it simply stays revealed.
+const revealEls = [...document.querySelectorAll('.reveal')];
+function revealOnScroll() {
+  const trigger = window.innerHeight * 0.9;
+  for (let i = revealEls.length - 1; i >= 0; i--) {
+    if (revealEls[i].getBoundingClientRect().top < trigger) {
+      revealEls[i].classList.add('is-visible');
+      revealEls.splice(i, 1);
+    }
+  }
+}
+window.addEventListener('scroll', () => requestAnimationFrame(revealOnScroll));
+window.addEventListener('resize', revealOnScroll);
+revealOnScroll();
+
+// ---- Scroll-spy: highlight the nav link of the section in view ----
+const navLinks = [...document.querySelectorAll('.nav-menu a')];
+const spySections = navLinks
+  .map(a => document.querySelector(a.getAttribute('href')))
+  .filter(Boolean);
+if ('IntersectionObserver' in window && spySections.length) {
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  spySections.forEach(sec => spyObserver.observe(sec));
+}

@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scroll-progress"></div>
+
 <header class="navbar">
   <div class="container navbar-inner">
     <a href="#" class="logo">DUX<span>.</span></a>
@@ -42,11 +44,9 @@
         </div>
       </div>
       <div class="hero-visual">
-        <div class="shoe-mock" id="shoe-mock" style="--sole:#e8734a;">
-          <div class="shoe-sole"></div>
-          <div class="shoe-strap strap-1"></div>
-          <div class="shoe-strap strap-2"></div>
-          <div class="shoe-strap strap-3"></div>
+        <div class="hero-shoe-wrap">
+          <div class="hero-glow" id="hero-glow" style="--glow:#1c1c1e;"></div>
+          <img class="hero-shoe" id="hero-shoe" src="images/hero-black.jpg" alt="DUX Clog in Schwarz">
         </div>
       </div>
     </div>
@@ -63,22 +63,48 @@
     </div>
   </section>
 
-  <section id="technologie" class="features">
+  <section class="benefits reveal">
+    <div class="container benefits-row">
+      <div class="benefit">
+        <div class="benefit-icon">🚚</div>
+        <div>
+          <h3>Kostenloser Versand</h3>
+          <p>Ab 50 € Bestellwert – bequem nach Hause.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">↩️</div>
+        <div>
+          <h3>30 Tage Rückgabe</h3>
+          <p>Passt nicht? Einfach kostenlos zurücksenden.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🛡️</div>
+        <div>
+          <h3>2 Jahre Garantie</h3>
+          <p>Auf Material und Verarbeitung der DUX.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="technologie" class="reveal features">
     <div class="container">
       <h2>Warum DUX anders ist</h2>
       <p class="section-sub">Drei Eigenschaften, die das Duflex-Material zur Basis moderner Gesundheitsschuhe machen.</p>
       <div class="feature-grid">
-        <div class="feature-card">
+        <div class="feature-card reveal">
           <div class="feature-icon">🦶</div>
           <h3>360° Flexibilität</h3>
           <p>Die Sohle biegt sich in alle Richtungen mit deinem Fuß mit – für ein natürliches Abrollverhalten wie barfuß.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal" style="transition-delay:.08s">
           <div class="feature-icon">🌀</div>
           <h3>Dämpfung &amp; Rückfederung</h3>
           <p>Das offenzellige Duflex-Material federt Stöße ab und gibt Energie bei jedem Schritt zurück.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal" style="transition-delay:.16s">
           <div class="feature-icon">💧</div>
           <h3>Leicht &amp; wasserfest</h3>
           <p>Kein Wasser wird aufgesogen, kein Geruch entsteht – ideal für Alltag, Reise und Freizeit.</p>
@@ -104,7 +130,7 @@
     </div>
   </section>
 
-  <section id="farben" class="colors">
+  <section id="farben" class="reveal colors">
     <div class="container">
       <h2>Wähle deine Farbe</h2>
       <p class="section-sub">Ein Klick genügt – probier es aus.</p>
@@ -119,7 +145,7 @@
     </div>
   </section>
 
-  <section id="stimmen" class="testimonials">
+  <section id="stimmen" class="reveal testimonials">
     <div class="container">
       <h2>Das sagen Träger:innen</h2>
       <div class="testimonial-slider">
@@ -144,7 +170,7 @@
     </div>
   </section>
 
-  <section id="faq" class="faq">
+  <section id="faq" class="reveal faq">
     <div class="container">
       <h2>Häufige Fragen</h2>
       <div class="accordion" id="accordion">
@@ -164,7 +190,7 @@
     </div>
   </section>
 
-  <section id="kaufen" class="cta">
+  <section id="kaufen" class="reveal cta">
     <div class="container cta-inner">
       <h2>Bereit für das DUX-Gefühl?</h2>
       <p>Fülle das Formular aus – deine Anfrage wird per E-Mail an uns gesendet.</p>
@@ -215,6 +241,8 @@
     <p>Demo-Projekt, erstellt zum Lernen mit Claude Code. Keine offizielle Website von Chung Shi / Duflex.</p>
   </div>
 </footer>
+
+<button class="to-top" id="to-top" aria-label="Nach oben scrollen">↑</button>
 
 <script src="script.js"></script>
 </body>

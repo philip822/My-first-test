@@ -80,31 +80,30 @@ p { margin: 0 0 12px; color: var(--muted); }
 .hero-actions { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; }
 
 .hero-visual { display: flex; justify-content: center; }
-.shoe-mock {
+.hero-shoe-wrap { position: relative; width: min(90vw, 440px); }
+.hero-glow {
+  position: absolute;
+  inset: 12% 8%;
+  background: radial-gradient(closest-side, var(--glow, var(--primary)), transparent 72%);
+  filter: blur(28px);
+  opacity: 0.42;
+  transition: background 0.35s ease;
+  z-index: 0;
+}
+.hero-shoe {
   position: relative;
-  width: 260px;
-  height: 260px;
-  transition: --sole 0.3s;
+  z-index: 1;
+  width: 100%;
+  display: block;
+  animation: heroFloat 5s ease-in-out infinite;
 }
-.shoe-sole {
-  position: absolute;
-  bottom: 20px;
-  left: 10px;
-  width: 240px;
-  height: 90px;
-  background: var(--sole, var(--primary));
-  border-radius: 60px 90px 90px 40px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  transition: background 0.3s ease;
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
 }
-.shoe-strap {
-  position: absolute;
-  background: #1c1c1e;
-  border-radius: 20px;
+@media (prefers-reduced-motion: reduce) {
+  .hero-shoe { animation: none; }
 }
-.strap-1 { width: 200px; height: 22px; top: 90px; left: 30px; transform: rotate(-8deg); }
-.strap-2 { width: 140px; height: 20px; top: 60px; left: 70px; transform: rotate(20deg); }
-.strap-3 { width: 90px; height: 18px; top: 130px; left: 100px; transform: rotate(-30deg); }
 
 /* Logos strip */
 .logos { padding: 30px 0; text-align: center; }
@@ -276,4 +275,58 @@ p { margin: 0 0 12px; color: var(--muted); }
   .nav-menu.open { display: flex; }
   .nav-toggle { display: flex; }
   .nav-cta { display: none; }
+}
+
+/* ---- Scroll progress bar (top of page) ---- */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--primary);
+  z-index: 100;
+  transition: width 0.1s linear;
+}
+
+/* ---- Benefit / trust strip ---- */
+.benefits { padding: 34px 0; border-bottom: 1px solid var(--border); }
+.benefits-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.benefit { display: flex; align-items: center; gap: 14px; }
+.benefit-icon { font-size: 26px; flex-shrink: 0; }
+.benefit h3 { font-size: 16px; margin: 0 0 2px; }
+.benefit p { font-size: 14px; margin: 0; }
+
+/* ---- Scroll-reveal animation ---- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---- Active nav link (scroll-spy) ---- */
+.nav-menu a.active { color: var(--primary); }
+
+/* ---- Back-to-top button ---- */
+.to-top {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+  z-index: 90;
+}
+.to-top:hover { background: var(--primary-dark); }
+.to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+@media (max-width: 640px) {
+  .benefits-row { grid-template-columns: 1fr; gap: 16px; }
 }
