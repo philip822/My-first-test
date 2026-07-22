@@ -125,6 +125,34 @@ p { margin: 0 0 12px; color: var(--muted); }
 .feature-card h3 { font-size: 19px; }
 .feature-card p { margin: 0; font-size: 15px; }
 
+/* Scroll build-up */
+.build { position: relative; height: 400vh; background: #f3f1ec; }
+.build-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.build-sticky h2 { margin-bottom: 8px; }
+.build-visual { position: relative; width: 260px; height: 260px; margin: 20px 0; }
+.build-visual .shoe-mock { width: 100%; height: 100%; }
+.build-part {
+  opacity: 0;
+  transform: translateY(28px) scale(0.85);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.build-part.visible { opacity: 1; transform: translateY(0) scale(1); }
+.build-caption { min-height: 30px; }
+.build-step { display: none; font-weight: 600; font-size: 17px; color: var(--text); margin: 0; }
+.build-step.active { display: block; }
+.build-progress { width: 200px; height: 4px; background: var(--border); border-radius: 4px; margin-top: 18px; overflow: hidden; }
+.build-progress-bar { height: 100%; width: 0%; background: var(--primary); }
+
 /* Colors */
 .colors { padding: 70px 0; text-align: center; }
 .color-picker { display: flex; justify-content: center; gap: 16px; margin: 28px 0 14px; }

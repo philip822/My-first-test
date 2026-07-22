@@ -107,3 +107,28 @@ orderForm.addEventListener('submit', (event) => {
   window.location.href = `mailto:${ORDER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   ctaFeedback.textContent = 'Dein E-Mail-Programm öffnet sich gleich mit der ausgefüllten Anfrage – dort einfach auf „Senden" klicken.';
 });
+
+// Scroll-driven build-up: the shoe assembles itself as you scroll through #aufbau.
+// The section is 400vh tall while its content stays pinned via `position: sticky`,
+// so scroll distance inside the section maps directly to an animation progress 0–1.
+const buildSection = document.getElementById('aufbau');
+const buildParts = document.querySelectorAll('#aufbau .build-part');
+const buildSteps = document.querySelectorAll('#aufbau .build-step');
+const buildProgressBar = document.getElementById('build-progress-bar');
+
+function updateBuild() {
+  const rect = buildSection.getBoundingClientRect();
+  const scrollableDistance = rect.height - window.innerHeight;
+  const progress = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1);
+  const activeIndex = Math.min(Math.floor(progress * buildParts.length), buildParts.length - 1);
+
+  buildParts.forEach((part, i) => {
+    part.classList.toggle('visible', progress > 0 && i <= activeIndex);
+  });
+  buildSteps.forEach((step, i) => step.classList.toggle('active', i === activeIndex));
+  buildProgressBar.style.width = `${progress * 100}%`;
+}
+
+window.addEventListener('scroll', () => requestAnimationFrame(updateBuild));
+window.addEventListener('resize', updateBuild);
+updateBuild();
