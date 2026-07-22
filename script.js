@@ -110,17 +110,18 @@ orderForm.addEventListener('submit', (event) => {
   ctaFeedback.textContent = 'Dein E-Mail-Programm öffnet sich gleich mit der ausgefüllten Anfrage – dort einfach auf „Senden" klicken.';
 });
 
-// Scroll-driven 360° rotation: every real frame from each color's turntable
-// video (black 222, blue 203 — the maximum the source videos contain) swaps
-// one after another as you scroll through #aufbau. The section is 350vh tall
-// while its content stays pinned via `position: sticky`, so scroll distance
-// inside the section maps directly to an animation progress 0–1, which picks
-// the active frame. Frames are eager-loaded so none pop in blank during a
-// fast scroll — the whole point is smoothness.
+// Scroll-driven 360° rotation: frames from each color's turntable video swap
+// one after another as you scroll through #aufbau. Black is every real frame
+// of its video (222); blue is 360 evenly-spaced frames from a slower, steadier
+// 16 s turntable. The section is 350vh tall while its content stays pinned via
+// `position: sticky`, so scroll distance inside the section maps directly to
+// an animation progress 0–1, which picks the active frame. Frames are
+// eager-loaded so none pop in blank during a fast scroll — the point is
+// smoothness.
 const ROTATION_SETS = {
   // name (matching the color picker) -> folder + frame count; `frames` lazy
   'Schwarz': { dir: 'images/360/black', count: 222, frames: null },
-  'Blau':    { dir: 'images/360/blue',  count: 203, frames: null },
+  'Blau':    { dir: 'images/360/blue',  count: 360, frames: null },
 };
 
 const buildVisual = document.getElementById('build-visual');
