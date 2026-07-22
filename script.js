@@ -108,11 +108,12 @@ orderForm.addEventListener('submit', (event) => {
   ctaFeedback.textContent = 'Dein E-Mail-Programm öffnet sich gleich mit der ausgefüllten Anfrage – dort einfach auf „Senden" klicken.';
 });
 
-// Scroll-driven build-up: the shoe assembles itself as you scroll through #aufbau.
-// The section is 400vh tall while its content stays pinned via `position: sticky`,
-// so scroll distance inside the section maps directly to an animation progress 0–1.
+// Scroll-driven photo sequence: the shoe photo swaps to the next angle as you
+// scroll through #aufbau. The section is 500vh tall while its content stays
+// pinned via `position: sticky`, so scroll distance inside the section maps
+// directly to an animation progress 0–1, which picks the active frame.
 const buildSection = document.getElementById('aufbau');
-const buildParts = document.querySelectorAll('#aufbau .build-part');
+const buildFrames = document.querySelectorAll('#aufbau .build-frame');
 const buildSteps = document.querySelectorAll('#aufbau .build-step');
 const buildProgressBar = document.getElementById('build-progress-bar');
 
@@ -120,11 +121,9 @@ function updateBuild() {
   const rect = buildSection.getBoundingClientRect();
   const scrollableDistance = rect.height - window.innerHeight;
   const progress = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1);
-  const activeIndex = Math.min(Math.floor(progress * buildParts.length), buildParts.length - 1);
+  const activeIndex = Math.min(Math.floor(progress * buildFrames.length), buildFrames.length - 1);
 
-  buildParts.forEach((part, i) => {
-    part.classList.toggle('visible', progress > 0 && i <= activeIndex);
-  });
+  buildFrames.forEach((frame, i) => frame.classList.toggle('visible', i === activeIndex));
   buildSteps.forEach((step, i) => step.classList.toggle('active', i === activeIndex));
   buildProgressBar.style.width = `${progress * 100}%`;
 }
