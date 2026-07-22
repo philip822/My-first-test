@@ -31,6 +31,8 @@ swatches.forEach(swatch => {
     swatches.forEach(s => s.classList.remove('selected'));
     swatch.classList.add('selected');
     orderColorSelect.value = name;
+    // if we have a 360° photo set for this color, switch the rotation to it
+    activateRotation(name);
   });
 });
 swatches[0].classList.add('selected');
@@ -108,41 +110,79 @@ orderForm.addEventListener('submit', (event) => {
   ctaFeedback.textContent = 'Dein E-Mail-Programm öffnet sich gleich mit der ausgefüllten Anfrage – dort einfach auf „Senden" klicken.';
 });
 
-// Scroll-driven 360° rotation: 90 real photos (extracted from a turntable
-// video) swap one after another as you scroll through #aufbau. The section
-// is 350vh tall while its content stays pinned via `position: sticky`, so
-// scroll distance inside the section maps directly to an animation
-// progress 0–1, which picks the active frame. All frames are eager-loaded
-// so none pop in blank during a fast scroll — the whole point is smoothness.
-const BUILD_FRAME_COUNT = 90;
-const buildVisual = document.getElementById('build-visual');
-const buildFrames = [];
-for (let i = 1; i <= BUILD_FRAME_COUNT; i++) {
-  const frameNumber = String(i).padStart(3, '0');
-  const img = document.createElement('img');
-  img.className = 'build-frame';
-  img.src = `images/360/dux-360-${frameNumber}.jpg`;
-  img.alt = `DUX Clog, Drehwinkel ${i} von ${BUILD_FRAME_COUNT}`;
-  img.loading = 'eager';
-  buildVisual.appendChild(img);
-  buildFrames.push(img);
-}
-buildFrames[0].classList.add('visible');
+// Scroll-driven 360° rotation: 150 real photos per color (extracted from a
+// turntable video) swap one after another as you scroll through #aufbau. The
+// section is 350vh tall while its content stays pinned via `position: sticky`,
+// so scroll distance inside the section maps directly to an animation
+// progress 0–1, which picks the active frame. Frames are eager-loaded so none
+// pop in blank during a fast scroll — the whole point is smoothness.
+const ROTATION_FRAME_COUNT = 150;
+const ROTATION_SETS = {
+  // name (matching the color picker) -> image folder; `frames` is filled lazily
+  'Schwarz': { dir: 'images/360/black', frames: null },
+  'Blau':    { dir: 'images/360/blue',  frames: null },
+};
 
+const buildVisual = document.getElementById('build-visual');
 const buildSection = document.getElementById('aufbau');
 const buildProgressBar = document.getElementById('build-progress-bar');
 const buildFrameLabel = document.getElementById('build-frame-label');
+const buildSwatches = document.querySelectorAll('.build-swatch');
 
-function updateBuild() {
+let buildFrames = [];         // the img elements of the currently active color
+let activeRotation = null;
+
+function buildRotationFrames(setKey) {
+  const set = ROTATION_SETS[setKey];
+  if (set.frames) return set.frames;   // build each color's images only once
+  const frames = [];
+  for (let i = 1; i <= ROTATION_FRAME_COUNT; i++) {
+    const frameNumber = String(i).padStart(3, '0');
+    const img = document.createElement('img');
+    img.className = 'build-frame';
+    img.src = `${set.dir}/dux-360-${frameNumber}.jpg`;
+    img.alt = `DUX Clog ${setKey}, Drehwinkel ${i} von ${ROTATION_FRAME_COUNT}`;
+    img.loading = 'eager';
+    frames.push(img);
+  }
+  set.frames = frames;
+  return frames;
+}
+
+function scrollProgress() {
   const rect = buildSection.getBoundingClientRect();
   const scrollableDistance = rect.height - window.innerHeight;
-  const progress = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1);
+  return Math.min(Math.max(-rect.top / scrollableDistance, 0), 1);
+}
+
+async function activateRotation(setKey) {
+  if (!ROTATION_SETS[setKey] || setKey === activeRotation) return;  // no photos for this color -> ignore
+  const frames = buildRotationFrames(setKey);
+  // preload the frame that will be shown so the switch doesn't flash blank
+  const idx = Math.min(Math.floor(scrollProgress() * frames.length), frames.length - 1);
+  try { await frames[idx].decode(); } catch (e) { /* ignore load errors */ }
+  activeRotation = setKey;
+  buildFrames = frames;
+  buildVisual.replaceChildren(...frames);
+  buildSwatches.forEach(s => s.classList.toggle('selected', s.dataset.rotation === setKey));
+  updateBuild();
+}
+
+function updateBuild() {
+  if (!buildFrames.length) return;
+  const progress = scrollProgress();
   const activeIndex = Math.min(Math.floor(progress * buildFrames.length), buildFrames.length - 1);
 
   buildFrames.forEach((frame, i) => frame.classList.toggle('visible', i === activeIndex));
   buildFrameLabel.textContent = `${activeIndex + 1} / ${buildFrames.length}`;
   buildProgressBar.style.width = `${progress * 100}%`;
 }
+
+buildSwatches.forEach(swatch => {
+  swatch.addEventListener('click', () => activateRotation(swatch.dataset.rotation));
+});
+
+activateRotation('Schwarz');
 
 window.addEventListener('scroll', () => requestAnimationFrame(updateBuild));
 window.addEventListener('resize', updateBuild);

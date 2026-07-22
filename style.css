@@ -139,7 +139,19 @@ p { margin: 0 0 12px; color: var(--muted); }
   overflow: hidden;
 }
 .build-sticky h2 { margin-bottom: 8px; }
-.build-visual { position: relative; width: min(80vw, 380px); height: min(80vw, 380px); margin: 20px 0; }
+.build-colors { display: flex; gap: 12px; justify-content: center; margin-top: 6px; }
+.build-swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  background: var(--c);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.build-swatch:hover { transform: scale(1.1); }
+.build-swatch.selected { border-color: var(--primary); }
+.build-visual { position: relative; width: min(80vw, 380px); height: min(80vw, 380px); margin: 14px 0 20px; }
 .build-frame {
   position: absolute;
   inset: 0;
