@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUX — Cinematic</title>
+<style>
+  :root{ --ink:#1c1c1e; --paper:#efece6; }
+  *{box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased;}
+  img{display:block;}
+
+  /* ---------- pinned cinematic stage ---------- */
+  .cine{position:relative;height:640vh;}
+  .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
+         display:flex;align-items:center;justify-content:center;
+         background:var(--bg,#efece6);transition:background .12s linear;}
+
+  /* big chapter typography (behind the shoe) */
+  .chapters{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .chapter{position:absolute;inset:0;will-change:opacity,transform;}
+  .chapter .kicker{position:absolute;top:15%;left:0;right:0;text-align:center;
+                   font-size:clamp(11px,1.1vw,13px);letter-spacing:.42em;text-transform:uppercase;font-weight:700;}
+  .chapter .word{position:absolute;top:47%;left:50%;transform:translate(-50%,-50%);
+                 font-size:clamp(60px,19vw,290px);font-weight:800;line-height:.82;letter-spacing:-.02em;
+                 text-transform:uppercase;white-space:nowrap;}
+  .chapter .sub{position:absolute;bottom:11%;left:50%;transform:translateX(-50%);
+                width:min(90vw,540px);text-align:center;font-size:clamp(14px,1.4vw,18px);
+                line-height:1.5;font-weight:500;}
+
+  /* the shoe (transparent frames), in front of the type */
+  .shoe-wrap{position:absolute;z-index:2;width:min(64vmin,540px);height:min(64vmin,540px);
+             filter:drop-shadow(0 38px 40px rgba(0,0,0,.26));}
+  .shoe-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;}
+  .shoe-wrap img.on{opacity:1;}
+
+  /* filmic overlays */
+  .vignette{position:absolute;inset:0;z-index:3;pointer-events:none;
+            background:radial-gradient(120% 100% at 50% 42%,transparent 52%,rgba(0,0,0,.16) 100%);}
+  .grain{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.5;mix-blend-mode:soft-light;
+         background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");}
+
+  /* chrome */
+  .top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+       padding:20px clamp(18px,4vw,40px);pointer-events:none;}
+  .brand{font-weight:800;letter-spacing:2px;font-size:18px;}
+  .brand b{color:#e8734a;}
+  .count{font-size:12px;letter-spacing:.3em;font-weight:700;font-variant-numeric:tabular-nums;}
+  .pbar{position:fixed;top:0;left:0;height:2px;width:0;background:#e8734a;z-index:21;}
+  .hint{position:fixed;bottom:26px;left:0;right:0;z-index:20;text-align:center;font-size:12px;letter-spacing:.24em;
+        text-transform:uppercase;font-weight:600;opacity:.7;transition:opacity .4s;pointer-events:none;}
+  .hint.gone{opacity:0;}
+
+  /* ---------- outro ---------- */
+  .outro{position:relative;background:#1c1c1e;color:#fff;text-align:center;padding:130px 24px;}
+  .outro .k{color:#e8734a;font-weight:700;letter-spacing:.32em;text-transform:uppercase;font-size:12px;}
+  .outro h2{font-size:clamp(34px,6vw,72px);font-weight:800;letter-spacing:-.02em;margin:14px 0 10px;}
+  .outro p{color:#b7b4ae;max-width:520px;margin:0 auto 34px;font-size:18px;}
+  .btn{display:inline-block;background:#e8734a;color:#fff;text-decoration:none;font-weight:700;
+       padding:16px 34px;border-radius:999px;transition:transform .15s,background .2s;}
+  .btn:hover{transform:translateY(-2px);background:#c85f39;}
+  .btn.ghost{background:transparent;border:1px solid #3a3a3f;margin-left:10px;}
+  .foot{background:#1c1c1e;color:#8f8c87;text-align:center;font-size:13px;padding:0 24px 40px;}
+
+  @media(prefers-reduced-motion:reduce){.grain{display:none;} .stage{transition:none;}}
+  @media(max-width:640px){
+    .shoe-wrap{width:86vw;height:86vw;}
+    .chapter .word{font-size:clamp(56px,26vw,150px);}
+  }
+</style>
+</head>
+<body>
+
+<div class="pbar" id="pbar"></div>
+<div class="top">
+  <div class="brand">DUX<b>.</b></div>
+  <div class="count" id="count">01 — 05</div>
+</div>
+
+<section class="cine" id="cine">
+  <div class="stage" id="stage">
+    <div class="chapters" id="chapters"></div>
+    <div class="shoe-wrap" id="shoe"></div>
+    <div class="vignette"></div>
+    <div class="grain"></div>
+  </div>
+</section>
+<div class="hint" id="hint">Scrollen ↓</div>
+
+<section class="outro">
+  <div class="k">Chung Shi · Duflex®</div>
+  <h2>Das ist die DUX.</h2>
+  <p>Ein Material. Eine Form. Unzählige Schritte. Erlebe den Rest der Geschichte auf der vollständigen Seite.</p>
+  <a href="index.html" class="btn">Zur vollständigen Seite</a>
+  <a href="variants.html" class="btn ghost">Alle Varianten</a>
+</section>
+<footer class="foot">Cinematic-Demo · Stil-Studie · Keine offizielle Website von Chung Shi / Duflex.</footer>
+
+<script>
+(function(){
+  var FRAMES = 222, DIR = "images/360/black-cut";
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // chapters: kicker / big word / subline / palette (bg, ink, accent)
+  var CH = [
+    {k:"Kapitel 01 — Der Rohstoff", w:"URSPRUNG", s:"Alles beginnt mit Duflex® – einem offenzelligen Material, das leicht ist wie kaum ein anderes.",
+     bg:[232,223,208], ink:[42,38,32], ac:[176,141,90]},
+    {k:"Kapitel 02 — Die Substanz", w:"MATERIAL", s:"Millionen feiner Zellen federn jeden Schritt ab und geben die Energie zurück.",
+     bg:[221,228,230], ink:[31,42,44], ac:[91,127,134]},
+    {k:"Kapitel 03 — Die Bewegung", w:"FLEX", s:"360° Flexibilität: die Sohle biegt sich in jede Richtung mit – natürliches Abrollen wie barfuß.",
+     bg:[236,223,224], ink:[44,33,36], ac:[176,106,114]},
+    {k:"Kapitel 04 — Die Gestalt", w:"FORM", s:"Eine klare, minimalistische Silhouette. Aus einem Guss gefertigt, ohne Kompromiss.",
+     bg:[236,235,232], ink:[34,33,30], ac:[138,133,120]},
+    {k:"Kapitel 05 — Das Ergebnis", w:"DUX", s:"Leicht. Wasserfest. Grenzenlos bequem. Barfuß-Gefühl, neu definiert.",
+     bg:[243,237,227], ink:[28,28,30], ac:[232,115,74]}
+  ];
+
+  var stage = document.getElementById("stage");
+  var chaptersEl = document.getElementById("chapters");
+  var shoeEl = document.getElementById("shoe");
+  var cine = document.getElementById("cine");
+  var pbar = document.getElementById("pbar");
+  var countEl = document.getElementById("count");
+  var hint = document.getElementById("hint");
+
+  // build chapter DOM
+  var chapEls = CH.map(function(c){
+    var d = document.createElement("div"); d.className = "chapter";
+    d.innerHTML = '<div class="kicker"></div><div class="word"></div><div class="sub"></div>';
+    d.querySelector(".kicker").textContent = c.k;
+    d.querySelector(".word").textContent = c.w;
+    d.querySelector(".sub").textContent = c.s;
+    chaptersEl.appendChild(d); return d;
+  });
+
+  // build shoe frames
+  var frames = [];
+  for(var i=1;i<=FRAMES;i++){
+    var im = document.createElement("img");
+    im.src = DIR + "/dux-360-" + String(i).padStart(3,"0") + ".webp";
+    im.alt = i===1 ? "DUX Clog" : ""; im.loading = "eager"; im.decoding = "async";
+    shoeEl.appendChild(im); frames.push(im);
+  }
+  var shown = -1;
+  function setFrame(idx){ idx = idx<0?0:(idx>=FRAMES?FRAMES-1:idx);
+    if(idx===shown) return; if(shown>=0) frames[shown].classList.remove("on");
+    frames[idx].classList.add("on"); shown = idx; }
+  setFrame(0);
+
+  var clamp=function(v,a,b){return v<a?a:(v>b?b:v);};
+  var easeIO=function(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;};
+  var lerp=function(a,b,t){return a+(b-a)*t;};
+  function mixCol(c1,c2,t){return "rgb("+Math.round(lerp(c1[0],c2[0],t))+","+Math.round(lerp(c1[1],c2[1],t))+","+Math.round(lerp(c1[2],c2[2],t))+")";}
+
+  var smooth=0, target=0;
+  function progress(){
+    var r=cine.getBoundingClientRect(); var total=cine.offsetHeight-window.innerHeight;
+    return clamp(-r.top/total,0,1);
+  }
+  function render(p){
+    var last=CH.length-1;
+    var cf=p*last;                       // 0..last
+    var i=clamp(Math.floor(cf),0,last-1); var local=cf-i;
+
+    // background + colors interpolate between neighbouring chapters
+    var bg=mixCol(CH[i].bg,CH[i+1].bg,local);
+    var ink=mixCol(CH[i].ink,CH[i+1].ink,local);
+    stage.style.setProperty("--bg",bg);
+
+    // shoe: one full rotation across the whole scroll, phase-shifted so both the
+    // opening and the finale land on a strong 3/4 hero angle (not the sole)
+    setFrame((Math.round(p*(FRAMES-1)) + 29) % FRAMES);
+    var scale=0.74+easeIO(p)*0.40;
+    var drift=-5+(0.5-p)*3;               // sit a touch high + subtle camera drift (vh)
+    shoeEl.style.transform="translateY("+drift.toFixed(2)+"vh) scale("+scale.toFixed(4)+")";
+
+    // each chapter fades/moves based on its distance to the camera (cf)
+    for(var n=0;n<chapEls.length;n++){
+      var dist=cf-n;                      // <0 upcoming, >0 passed
+      var op=clamp(1-Math.abs(dist)*1.5,0,1);
+      var ty=(dist*-46);                  // move up as the camera passes
+      var ws=1+clamp(-dist,-1,1)*0.05;
+      var el=chapEls[n];
+      el.style.opacity=reduce?(Math.abs(dist)<.5?1:0):op.toFixed(3);
+      el.style.color=ink;
+      el.style.transform="translateY("+ty.toFixed(1)+"px)";
+      el.querySelector(".word").style.transform="translate(-50%,-50%) scale("+ws.toFixed(3)+")";
+      el.querySelector(".word").style.color=mixCol(CH[i].ac,CH[i+1].ac,local);
+      el.querySelector(".word").style.opacity=".16";
+      el.querySelector(".kicker").style.color=mixCol(CH[i].ac,CH[i+1].ac,local);
+    }
+
+    pbar.style.width=(p*100).toFixed(2)+"%";
+    var cur=clamp(Math.round(cf)+1,1,CH.length);
+    countEl.textContent=String(cur).padStart(2,"0")+" — 0"+CH.length;
+    if(p>0.02) hint.classList.add("gone"); else hint.classList.remove("gone");
+  }
+
+  function tick(){
+    target=progress();
+    if(reduce){ smooth=target; render(smooth); return; }
+    smooth+=(target-smooth)*0.16;
+    if(Math.abs(target-smooth)<0.0003) smooth=target;
+    render(smooth);
+    if(Math.abs(target-smooth)>=0.0003) requestAnimationFrame(tick);
+  }
+  var ticking=false;
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(function(){ ticking=false; }); }
+    requestAnimationFrame(tick); }
+  window.addEventListener("scroll",onScroll,{passive:true});
+  window.addEventListener("resize",function(){render(progress());});
+  render(0);
+})();
+</script>
+</body>
+</html>
