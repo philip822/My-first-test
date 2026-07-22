@@ -82,7 +82,7 @@ document.querySelectorAll('.accordion-trigger').forEach(trigger => {
 
 // Order form – opens the visitor's email app with the request pre-filled.
 // Trag hier deine eigene E-Mail-Adresse ein, an die Anfragen gehen sollen:
-const ORDER_EMAIL = 'deine-email@beispiel.de';
+const ORDER_EMAIL = 'Philip.ertl@meandfriends.ag';
 
 const orderForm = document.getElementById('order-form');
 const ctaFeedback = document.getElementById('cta-feedback');
