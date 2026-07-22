@@ -108,21 +108,22 @@ orderForm.addEventListener('submit', (event) => {
   ctaFeedback.textContent = 'Dein E-Mail-Programm öffnet sich gleich mit der ausgefüllten Anfrage – dort einfach auf „Senden" klicken.';
 });
 
-// Scroll-driven 360° rotation: 30 real photos (extracted from a turntable
+// Scroll-driven 360° rotation: 90 real photos (extracted from a turntable
 // video) swap one after another as you scroll through #aufbau. The section
 // is 350vh tall while its content stays pinned via `position: sticky`, so
 // scroll distance inside the section maps directly to an animation
-// progress 0–1, which picks the active frame.
-const BUILD_FRAME_COUNT = 30;
+// progress 0–1, which picks the active frame. All frames are eager-loaded
+// so none pop in blank during a fast scroll — the whole point is smoothness.
+const BUILD_FRAME_COUNT = 90;
 const buildVisual = document.getElementById('build-visual');
 const buildFrames = [];
 for (let i = 1; i <= BUILD_FRAME_COUNT; i++) {
-  const frameNumber = String(i).padStart(2, '0');
+  const frameNumber = String(i).padStart(3, '0');
   const img = document.createElement('img');
   img.className = 'build-frame';
   img.src = `images/360/dux-360-${frameNumber}.jpg`;
   img.alt = `DUX Clog, Drehwinkel ${i} von ${BUILD_FRAME_COUNT}`;
-  img.loading = i === 1 ? 'eager' : 'lazy';
+  img.loading = 'eager';
   buildVisual.appendChild(img);
   buildFrames.push(img);
 }
