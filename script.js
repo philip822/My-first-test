@@ -108,14 +108,29 @@ orderForm.addEventListener('submit', (event) => {
   ctaFeedback.textContent = 'Dein E-Mail-Programm öffnet sich gleich mit der ausgefüllten Anfrage – dort einfach auf „Senden" klicken.';
 });
 
-// Scroll-driven photo sequence: the shoe photo swaps to the next angle as you
-// scroll through #aufbau. The section is 500vh tall while its content stays
-// pinned via `position: sticky`, so scroll distance inside the section maps
-// directly to an animation progress 0–1, which picks the active frame.
+// Scroll-driven 360° rotation: 30 real photos (extracted from a turntable
+// video) swap one after another as you scroll through #aufbau. The section
+// is 350vh tall while its content stays pinned via `position: sticky`, so
+// scroll distance inside the section maps directly to an animation
+// progress 0–1, which picks the active frame.
+const BUILD_FRAME_COUNT = 30;
+const buildVisual = document.getElementById('build-visual');
+const buildFrames = [];
+for (let i = 1; i <= BUILD_FRAME_COUNT; i++) {
+  const frameNumber = String(i).padStart(2, '0');
+  const img = document.createElement('img');
+  img.className = 'build-frame';
+  img.src = `images/360/dux-360-${frameNumber}.jpg`;
+  img.alt = `DUX Clog, Drehwinkel ${i} von ${BUILD_FRAME_COUNT}`;
+  img.loading = i === 1 ? 'eager' : 'lazy';
+  buildVisual.appendChild(img);
+  buildFrames.push(img);
+}
+buildFrames[0].classList.add('visible');
+
 const buildSection = document.getElementById('aufbau');
-const buildFrames = document.querySelectorAll('#aufbau .build-frame');
-const buildSteps = document.querySelectorAll('#aufbau .build-step');
 const buildProgressBar = document.getElementById('build-progress-bar');
+const buildFrameLabel = document.getElementById('build-frame-label');
 
 function updateBuild() {
   const rect = buildSection.getBoundingClientRect();
@@ -124,7 +139,7 @@ function updateBuild() {
   const activeIndex = Math.min(Math.floor(progress * buildFrames.length), buildFrames.length - 1);
 
   buildFrames.forEach((frame, i) => frame.classList.toggle('visible', i === activeIndex));
-  buildSteps.forEach((step, i) => step.classList.toggle('active', i === activeIndex));
+  buildFrameLabel.textContent = `${activeIndex + 1} / ${buildFrames.length}`;
   buildProgressBar.style.width = `${progress * 100}%`;
 }
 

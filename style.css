@@ -125,8 +125,8 @@ p { margin: 0 0 12px; color: var(--muted); }
 .feature-card h3 { font-size: 19px; }
 .feature-card p { margin: 0; font-size: 15px; }
 
-/* Scroll build-up */
-.build { position: relative; height: 500vh; background: #f3f1ec; }
+/* Scroll 360° rotation */
+.build { position: relative; height: 350vh; background: #f3f1ec; }
 .build-sticky {
   position: sticky;
   top: 0;
@@ -139,7 +139,7 @@ p { margin: 0 0 12px; color: var(--muted); }
   overflow: hidden;
 }
 .build-sticky h2 { margin-bottom: 8px; }
-.build-visual { position: relative; width: min(80vw, 420px); height: 300px; margin: 20px 0; }
+.build-visual { position: relative; width: min(80vw, 460px); height: 320px; margin: 20px 0; }
 .build-frame {
   position: absolute;
   inset: 0;
@@ -147,13 +147,11 @@ p { margin: 0 0 12px; color: var(--muted); }
   height: 100%;
   object-fit: contain;
   opacity: 0;
-  transform: perspective(800px) rotateY(18deg) scale(0.92);
-  transition: opacity 0.5s ease, transform 0.5s ease;
 }
-.build-frame.visible { opacity: 1; transform: perspective(800px) rotateY(0deg) scale(1); }
-.build-caption { min-height: 30px; }
-.build-step { display: none; font-weight: 600; font-size: 17px; color: var(--text); margin: 0; }
-.build-step.active { display: block; }
+.build-frame.visible { opacity: 1; }
+.build-caption { min-height: 46px; }
+.build-caption p { margin: 0; color: var(--muted); }
+.build-frame-label { font-weight: 600; color: var(--text) !important; font-size: 14px; margin-top: 4px !important; }
 .build-progress { width: 200px; height: 4px; background: var(--border); border-radius: 4px; margin-top: 18px; overflow: hidden; }
 .build-progress-bar { height: 100%; width: 0%; background: var(--primary); }
 
