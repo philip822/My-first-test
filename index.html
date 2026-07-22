@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUX – Die Sandale mit Duflex-Technologie</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container navbar-inner">
+    <a href="#" class="logo">DUX<span>.</span></a>
+    <nav id="nav-menu" class="nav-menu">
+      <a href="#technologie">Technologie</a>
+      <a href="#farben">Farben</a>
+      <a href="#stimmen">Stimmen</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#kaufen" class="btn btn-primary nav-cta">Jetzt entdecken</a>
+    <button id="nav-toggle" class="nav-toggle" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow">Chung Shi präsentiert</p>
+        <h1>DUX. Barfuß-Gefühl.<br>Neu definiert.</h1>
+        <p class="hero-sub">
+          Die Sandale DUX vereint das patentierte <strong>Duflex-Material</strong> mit
+          einem minimalistischen Design – flexibel wie eine zweite Haut, robust
+          für jeden Alltag.
+        </p>
+        <div class="hero-actions">
+          <a href="#kaufen" class="btn btn-primary">Jetzt entdecken</a>
+          <a href="#technologie" class="btn btn-ghost">Wie funktioniert Duflex?</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="shoe-mock" id="shoe-mock" style="--sole:#e8734a;">
+          <div class="shoe-sole"></div>
+          <div class="shoe-strap strap-1"></div>
+          <div class="shoe-strap strap-2"></div>
+          <div class="shoe-strap strap-3"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="logos">
+    <div class="container">
+      <p>Eine Marke von</p>
+      <div class="logo-row">
+        <span>CHUNG SHI</span>
+        <span>·</span>
+        <span>DUFLEX®</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="technologie" class="features">
+    <div class="container">
+      <h2>Warum DUX anders ist</h2>
+      <p class="section-sub">Drei Eigenschaften, die das Duflex-Material zur Basis moderner Gesundheitsschuhe machen.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🦶</div>
+          <h3>360° Flexibilität</h3>
+          <p>Die Sohle biegt sich in alle Richtungen mit deinem Fuß mit – für ein natürliches Abrollverhalten wie barfuß.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌀</div>
+          <h3>Dämpfung &amp; Rückfederung</h3>
+          <p>Das offenzellige Duflex-Material federt Stöße ab und gibt Energie bei jedem Schritt zurück.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💧</div>
+          <h3>Leicht &amp; wasserfest</h3>
+          <p>Kein Wasser wird aufgesogen, kein Geruch entsteht – ideal für Alltag, Reise und Freizeit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="farben" class="colors">
+    <div class="container">
+      <h2>Wähle deine Farbe</h2>
+      <p class="section-sub">Ein Klick genügt – probier es aus.</p>
+      <div class="color-picker" id="color-picker">
+        <button class="swatch" style="--c:#e8734a" data-color="#e8734a" aria-label="Orange"></button>
+        <button class="swatch" style="--c:#2f7a63" data-color="#2f7a63" aria-label="Grün"></button>
+        <button class="swatch" style="--c:#264b8c" data-color="#264b8c" aria-label="Blau"></button>
+        <button class="swatch" style="--c:#1c1c1e" data-color="#1c1c1e" aria-label="Schwarz"></button>
+        <button class="swatch" style="--c:#c23b5a" data-color="#c23b5a" aria-label="Beere"></button>
+      </div>
+      <p class="color-name">Aktuelle Farbe: <span id="color-name-label">Orange</span></p>
+    </div>
+  </section>
+
+  <section id="stimmen" class="testimonials">
+    <div class="container">
+      <h2>Das sagen Träger:innen</h2>
+      <div class="testimonial-slider">
+        <button class="slider-btn" id="prev-btn" aria-label="Vorherige Stimme">‹</button>
+        <div class="testimonial-track" id="testimonial-track">
+          <blockquote class="testimonial active">
+            <p>„Ich hab noch nie eine Sandale getragen, die sich so leicht anfühlt. Nach 8 Stunden auf den Beinen – keine Beschwerden.“</p>
+            <cite>— Melanie K.</cite>
+          </blockquote>
+          <blockquote class="testimonial">
+            <p>„Das Duflex-Material ist genial. Man merkt sofort den Unterschied zu normalen Sandalen.“</p>
+            <cite>— Jonas R.</cite>
+          </blockquote>
+          <blockquote class="testimonial">
+            <p>„Endlich Schuhe, die mit dem Fuß mitgehen statt dagegen zu arbeiten.“</p>
+            <cite>— Petra S.</cite>
+          </blockquote>
+        </div>
+        <button class="slider-btn" id="next-btn" aria-label="Nächste Stimme">›</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <div class="container">
+      <h2>Häufige Fragen</h2>
+      <div class="accordion" id="accordion">
+        <div class="accordion-item">
+          <button class="accordion-trigger">Was ist Duflex genau?<span class="chev">⌄</span></button>
+          <div class="accordion-panel"><p>Duflex ist ein von Chung Shi entwickeltes, offenzelliges Sohlenmaterial, das extrem flexibel, leicht und dämpfend ist.</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger">Ist DUX für lange Gehstrecken geeignet?<span class="chev">⌄</span></button>
+          <div class="accordion-panel"><p>Ja – durch die Rückfederung und das natürliche Abrollverhalten eignet sich DUX auch für längere Spaziergänge.</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger">Diese Seite ist doch nur zum Testen?<span class="chev">⌄</span></button>
+          <div class="accordion-panel"><p>Genau – dies ist eine Demo-/Übungsseite, um die Funktionsweise von HTML, CSS und JavaScript kennenzulernen. Es ist keine offizielle Chung-Shi-Seite.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kaufen" class="cta">
+    <div class="container cta-inner">
+      <h2>Bereit für das DUX-Gefühl?</h2>
+      <p>Diese Demo-Seite dient nur zu Lernzwecken – hier passiert beim Klick nichts Reales.</p>
+      <button id="cta-button" class="btn btn-primary btn-lg">In den Warenkorb (Demo)</button>
+      <p id="cta-feedback" class="cta-feedback"></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>Demo-Projekt, erstellt zum Lernen mit Claude Code. Keine offizielle Website von Chung Shi / Duflex.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
