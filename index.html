@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CHUNG SHI DUX — Walk on Air</title>
-  <meta name="description" content="Produktseite für den Chung Shi Dux: echter Foto-360°-Viewer, scroll-reaktiver Glow, GSAP ScrollTrigger Pinning und Lottie-Animationen." />
+  <meta name="description" content="Produktseite für den Chung Shi Dux: 3D-Nachbau als 360°-Viewer, scroll-reaktiver Glow, GSAP ScrollTrigger Pinning und Lottie-Animationen." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -18,12 +18,9 @@
     </ul>
   </nav>
 
-  <!-- Fixed 360°-photo stage, spans hero + stage scroll range, driven entirely by scroll progress -->
+  <!-- Fixed 3D scene, spans hero + stage scroll range, driven entirely by scroll progress -->
   <div class="scene-fixed" id="scene-fixed">
-    <div class="dux-stage">
-      <div class="dux-glow" id="dux-glow"></div>
-      <img id="dux-frame" src="assets/dux-360/frame-01.jpg" alt="Chung Shi Dux, 360°-Ansicht" width="760" height="583" />
-    </div>
+    <canvas id="webgl-canvas"></canvas>
   </div>
 
   <div id="scene-range">
@@ -65,9 +62,9 @@
     </section>
   </div>
 
-  <!-- PERSPECTIVES GALLERY (real captured angles from the 360°-sequence) -->
+  <!-- PERSPECTIVES GALLERY (real reference photos the 3D model was built from) -->
   <section class="gallery-section" id="gallery-section">
-    <h2 class="gallery-title">Perspektiven</h2>
+    <h2 class="gallery-title">Das Original-Foto</h2>
     <div class="gallery-track" id="gallery-track">
       <article class="gallery-card" style="--photo:url('assets/dux-360/frame-01.jpg')"><span>Seitenansicht</span></article>
       <article class="gallery-card" style="--photo:url('assets/dux-360/frame-12.jpg')"><span>Zehenbereich</span></article>
@@ -79,12 +76,15 @@
   </section>
 
   <footer class="site-footer">
-    <p>Produktfotos aus deinem 360°-Video extrahiert. Texte sind Platzhalter — ersetze sie durch offizielle Chung&nbsp;Shi-Angaben.</p>
+    <p>3D-Nachbau, prozedural aus den Referenzfotos deines Videos modelliert. Texte sind Platzhalter — ersetze sie durch offizielle Chung&nbsp;Shi-Angaben.</p>
   </footer>
 
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
   <script src="vendor/gsap.min.js"></script>
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="vendor/lottie.min.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

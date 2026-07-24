@@ -50,49 +50,16 @@ body {
   letter-spacing: 0.05em;
 }
 
-/* ---------- FIXED 360°-PHOTO STAGE ---------- */
+/* ---------- FIXED 3D SCENE ---------- */
 .scene-fixed {
   position: fixed;
   inset: 0;
   z-index: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-
-.dux-stage {
-  position: relative;
-  width: min(70vw, 620px);
-  aspect-ratio: 760 / 583;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dux-stage img {
-  position: relative;
-  z-index: 0;
+#webgl-canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-.dux-glow {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  bottom: 8%;
-  width: 70%;
-  height: 40%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, var(--accent-2), transparent 70%);
-  opacity: 0.25;
-  mix-blend-mode: screen;
-  filter: blur(2px);
 }
 
 /* ---------- HERO ---------- */
