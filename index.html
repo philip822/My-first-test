@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHUNG SHI DUX — Walk on Air</title>
+  <meta name="description" content="Demo-Produktseite für den Chung Shi Dux mit 360°-Three.js-Viewer, scroll-reaktivem Glow, GSAP ScrollTrigger Pinning und Lottie-Animationen." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <span class="brand">CHUNG SHI <strong>DUX</strong></span>
+    <ul class="nav-links">
+      <li>Modell</li>
+      <li>Technologie</li>
+      <li>Farben</li>
+    </ul>
+  </nav>
+
+  <!-- Fixed 3D scene, spans hero + stage scroll range, driven entirely by scroll progress -->
+  <div class="scene-fixed" id="scene-fixed">
+    <canvas id="webgl-canvas"></canvas>
+  </div>
+
+  <div id="scene-range">
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero-copy">
+        <h1>DUX.<br />WALK&nbsp;ON&nbsp;AIR.</h1>
+        <p>Scrolle, um den Dux von allen Seiten zu erleben.</p>
+        <div class="scroll-cue">
+          <span></span>
+          Scrollen
+        </div>
+      </div>
+    </header>
+
+    <!-- PINNED PRODUCT STAGE -->
+    <section class="stage" id="stage">
+      <div class="stage-visual-spacer"></div>
+      <div class="stage-copy">
+        <div class="copy-block" data-feature="core">
+          <div class="lottie-icon" id="lottie-core"></div>
+          <h2>REBOUND CORE</h2>
+          <p>Der Energiekern im Mittelfuß gibt Druck sofort zurück — sichtbar im Glow, spürbar bei jedem Schritt.</p>
+        </div>
+        <div class="copy-block" data-feature="footbed">
+          <h2>ALL-DAY COMFORT FOOTBED</h2>
+          <p>Anatomisch geformtes Fußbett, das sich an deinen Fuß anpasst statt umgekehrt.</p>
+        </div>
+        <div class="copy-block" data-feature="mesh">
+          <div class="lottie-icon" id="lottie-mesh"></div>
+          <h2>BREATHABLE MESH UPPER</h2>
+          <p>Luftdurchlässiges Obermaterial, das auch nach Stunden noch kühl bleibt.</p>
+        </div>
+        <div class="copy-block" data-feature="sole">
+          <h2>CONVEX SOLE GEOMETRY</h2>
+          <p>Die konvexe Sohlenform fördert eine natürliche Abrollbewegung von der Ferse bis zum Zehenballen.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- COLORWAY GALLERY -->
+  <section class="gallery-section" id="gallery-section">
+    <h2 class="gallery-title">Farben</h2>
+    <div class="gallery-track" id="gallery-track">
+      <article class="gallery-card" style="--tint:#e2725b"><span>01</span>Terracotta</article>
+      <article class="gallery-card" style="--tint:#3d5a80"><span>02</span>Ocean Blue</article>
+      <article class="gallery-card" style="--tint:#606c38"><span>03</span>Olive</article>
+      <article class="gallery-card" style="--tint:#e0a458"><span>04</span>Sand</article>
+      <article class="gallery-card" style="--tint:#2b2d42"><span>05</span>Graphite</article>
+      <article class="gallery-card" style="--tint:#8d99ae"><span>06</span>Fog</article>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>Demo-Prototyp — Platzhalter-Inhalte &amp; 3D-Modell. Ersetze Texte, Farben und Assets durch echtes Chung&nbsp;Shi-Material.</p>
+  </footer>
+
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="vendor/lottie.min.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
