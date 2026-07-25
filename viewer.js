@@ -10,7 +10,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0e0d0c);
 
 const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-camera.position.set(2.4, 1.4, 4.6);
+camera.position.set(1.1, 0.7, 4.9);
 
 const ambient = new THREE.AmbientLight(0xffffff, 0.45);
 const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);

@@ -6,11 +6,9 @@ const ScrollTrigger = window.ScrollTrigger;
 gsap.registerPlugin(ScrollTrigger);
 
 /* =========================================================
-   THREE.JS SCENE — a clog modeled to match the real Chung Shi
-   Dux from the reference photos: closed, perforated vamp over
-   an open heel, an arching strap with a metal rivet, and a
-   single-tone indigo body. Built from 2D profiles extruded
-   into 3D, so no external model file is needed.
+   THREE.JS SCENE — see clog-model.js for the geometry, which is
+   extruded from a silhouette traced directly from the reference
+   photo and textured with that same photo on the front face.
    ========================================================= */
 
 const canvas = document.getElementById("webgl-canvas");
@@ -39,7 +37,7 @@ glowLight.position.set(0.2, -0.55, 0.3);
 scene.add(ambient, keyLight, fillLight, glowLight);
 
 const { clog, soleMat } = createClogModel(THREE);
-clog.rotation.y = -0.32;
+clog.rotation.y = -0.08;
 scene.add(clog);
 
 function resize() {
@@ -56,7 +54,7 @@ resize();
 let coreFocus = 0; // 0..1, peaks while the "core" copy block is centered in view
 
 function updateSceneFromScroll(progress) {
-  clog.rotation.y = -0.32 + progress * Math.PI * 2;
+  clog.rotation.y = -0.08 + progress * Math.PI * 2;
 
   const pulse = 0.5 + 0.5 * Math.sin(progress * Math.PI * 6);
   const baseIntensity = 0.5 + progress * 1.4;
