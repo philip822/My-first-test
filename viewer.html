@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHUNG SHI DUX — 3D-Ansicht</title>
+  <meta name="description" content="Freies 3D-Modell des Chung Shi Dux — mit der Maus oder dem Finger drehen und zoomen." />
+  <link rel="stylesheet" href="viewer.css" />
+</head>
+<body>
+  <a class="viewer-back" href="index.html">← Zurück</a>
+  <span class="viewer-label">CHUNG SHI <strong>DUX</strong> — 3D-Modell</span>
+  <div class="viewer-hint" id="viewer-hint">Ziehen zum Drehen · Scrollen zum Zoomen</div>
+
+  <canvas id="viewer-canvas"></canvas>
+
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>

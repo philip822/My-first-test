@@ -1,0 +1,78 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #0e0d0c;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+#viewer-canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  cursor: grab;
+  touch-action: none;
+}
+#viewer-canvas:active {
+  cursor: grabbing;
+}
+
+.viewer-back {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 10;
+  color: #f3efe9;
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease;
+}
+.viewer-back:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.viewer-label {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 10;
+  color: #a8a29a;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.viewer-label strong {
+  color: #e2725b;
+}
+
+.viewer-hint {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  color: #a8a29a;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.viewer-hint.hint-hidden {
+  opacity: 0;
+}
+
+@media (max-width: 600px) {
+  .viewer-label { display: none; }
+}
